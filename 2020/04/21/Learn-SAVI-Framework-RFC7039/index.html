@@ -20,28 +20,33 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="CLT">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="Introduction因为路由器在转发IP数据包时，并没有用到IP源地址，所以源地址可以由发送主机任意选择，造成欺骗。 SAVI的目标是在小的粒度 (fine granularity) 下，对个人IP地址进行过滤。 为了适应各种网络的需求，SAVI采取了可扩展的设计。 ModelSAVI不应当依赖主机的功能，所以是 purely network based。为了强制主机使用合法IP地址，SAVI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Learn-SAVI-Framework[RFC-7039]">
+<meta property="og:url" content="http://yoursite.com/2020/04/21/Learn-SAVI-Framework-RFC7039/index.html">
 <meta property="og:site_name" content="CLT">
+<meta property="og:description" content="Introduction因为路由器在转发IP数据包时，并没有用到IP源地址，所以源地址可以由发送主机任意选择，造成欺骗。 SAVI的目标是在小的粒度 (fine granularity) 下，对个人IP地址进行过滤。 为了适应各种网络的需求，SAVI采取了可扩展的设计。 ModelSAVI不应当依赖主机的功能，所以是 purely network based。为了强制主机使用合法IP地址，SAVI">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-04-21T08:39:29.000Z">
+<meta property="article:modified_time" content="2020-04-21T08:42:21.903Z">
 <meta property="article:author" content="CLT">
+<meta property="article:tag" content="study notes">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/">
+<link rel="canonical" href="http://yoursite.com/2020/04/21/Learn-SAVI-Framework-RFC7039/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'en'
   };
 </script>
 
-  <title>CLT</title>
+  <title>Learn-SAVI-Framework[RFC-7039] | CLT</title>
   
 
 
@@ -139,9 +144,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
@@ -157,10 +163,9 @@
       <meta itemprop="name" content="CLT">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/21/Learn-SAVI-Framework-RFC7039/" class="post-title-link" itemprop="url">Learn-SAVI-Framework[RFC-7039]</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          Learn-SAVI-Framework[RFC-7039]
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -174,6 +179,13 @@
             </span>
 
           
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
 
         </div>
       </header>
@@ -184,7 +196,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>因为路由器在转发IP数据包时，并没有用到IP源地址，所以源地址可以由发送主机任意选择，造成欺骗。</p>
+        <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>因为路由器在转发IP数据包时，并没有用到IP源地址，所以源地址可以由发送主机任意选择，造成欺骗。</p>
 <p>SAVI的目标是在小的粒度 (fine granularity) 下，对个人IP地址进行过滤。</p>
 <p>为了适应各种网络的需求，SAVI采取了可扩展的设计。</p>
 <h2 id="Model"><a href="#Model" class="headerlink" title="Model"></a>Model</h2><p>SAVI不应当依赖主机的功能，所以是 purely network based。为了强制主机使用合法IP地址，SAVI使用以下三步骤模型：</p>
@@ -238,171 +250,33 @@
 </li>
 </ul>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/tags/study-notes/" rel="tag"># study notes</a>
+          </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/20/Extensible-NGI/">
+        
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="CLT">
-      <meta itemprop="description" content="">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CLT">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/20/Extensible-NGI/" class="post-title-link" itemprop="url">讲座：可扩展的下一代互联网（李丹）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-04-20 21:13:55 / Modified: 21:32:07" itemprop="dateCreated datePublished" datetime="2020-04-20T21:13:55+08:00">2020-04-20</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p> <a href="https://baike.baidu.com/item/%E6%A2%85%E7%89%B9%E5%8D%A1%E5%A4%AB%E5%AE%9A%E5%BE%8B/559840?fr=aladdin" target="_blank" rel="noopener">梅特<em>卡夫</em>定律</a></p>
-</blockquote>
-<h2 id="一、可扩展是互联网的使命"><a href="#一、可扩展是互联网的使命" class="headerlink" title="一、可扩展是互联网的使命"></a>一、可扩展是互联网的使命</h2><ul>
-<li><p>国际互联网协会 (Internet Society, ISOC)</p>
-<blockquote>
-<p>Unlike the telephone network, which for years in most countries was run by a single company, the global Internet consists of tens of thousands of interconnected networks run by service providers, individual companies, universities, governments, and others.</p>
-</blockquote>
-<blockquote>
-<p>The Internet is for everyone.</p>
-</blockquote>
-<blockquote>
-<p>open, globally-connected, secure, and trustworthy.</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><p>“可扩展互联网”的实现手段： “开放” + “互联”</p>
-</li>
-<li><p>下一代互联网建立在IPv6的极大地址空间上</p>
-</li>
-<li><p>“国际互联”的基本设计原则（可扩展性）</p>
-<ul>
-<li><p>分布式运行：互联网不统一管理</p>
-</li>
-<li><p>不改变网络的内部通信机制</p>
-</li>
-<li><p>网络之间的互联互通服务尽量简单：无连接分组交换、尽力而为</p>
-</li>
-</ul>
-</li>
-<li><p>IP协议：<strong>用于“国际互联”的协议</strong>（无连接 + 分组交换 + “尽力而为”的转发 + 基于IP地址的寻址），充分”放权”</p>
-<ul>
-<li>互联网对内容提供者不做任何限制</li>
-<li>互联网的开放模式冲击电信网运营商</li>
-<li>互联网不为任何特殊应用服务</li>
-<li>互联网并非对应用的需求“视而不见”</li>
-<li>互联网对每个网络的底层通信介质不作限制</li>
-<li>互联网对每个网络地层通信的“实际“转发协议不限制</li>
-<li>互联网对用户开放，“尽力而为”是在有限资源的情况下的社会主义</li>
-<li>互联网对流量开放，流量由发动者驱动：开放 vs DoS</li>
-<li>互联网对标准和标准的制定者开放，IETF是国际民间组织<ul>
-<li>芯片设计领域：指令集标准是要付费使用的</li>
-<li>电信网：给持有专利的公司付费</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>针对IP的非议：</p>
-<ul>
-<li>IP协议没有服务质量保障</li>
-<li>IP协议没有移动性支持</li>
-<li>IP协议缺乏安全性考虑，没有支持网络的“内生安全”</li>
-</ul>
-</li>
-<li><p>有没有比IP协议更好的互联方案？——谁也不知道</p>
-</li>
-<li><p>互联网 ！= 计算机网络  ——一系列误导性名词：工业互联网、物联网……</p>
-</li>
-</ul>
-<h2 id="二、IPv6协议增加了互联网的可扩展性"><a href="#二、IPv6协议增加了互联网的可扩展性" class="headerlink" title="二、IPv6协议增加了互联网的可扩展性"></a>二、IPv6协议增加了互联网的可扩展性</h2><ul>
-<li><p>从根本上解决困扰互联网“开放”和“互联”的地址空间问题</p>
-</li>
-<li><p>当前许多行业网络发展的误区：</p>
-<ul>
-<li><p>以业务需求为纲</p>
-</li>
-<li><p>只关心局部网络需求，没有全局视野，形成“网络孤岛”</p>
-</li>
-</ul>
-</li>
-<li><p>地址分配的可聚类性更强</p>
-</li>
-</ul>
-<h2 id="三、其他互联网方案"><a href="#三、其他互联网方案" class="headerlink" title="三、其他互联网方案"></a>三、其他互联网方案</h2><ul>
-<li>GENI计划（美国）</li>
-<li>软件定义网络SDN<ul>
-<li>核心思想：路由器的控制平面与数据平面分离，把控制平面集中到一个中央控制器上</li>
-<li>可扩展性差，因为互联网是分布式的</li>
-</ul>
-</li>
-<li>内容中心网络ICN / 命名数据网络NDN<ul>
-<li>技术思路：用“内容名字”取代“IP地址”成为路由寻址的核心（Underlay实现）</li>
-<li>本质上取代了DNS的功能，把内容寻址实现到路由器上</li>
-</ul>
-</li>
-<li>服务质量驱动的未来互联网设计<ul>
-<li>强调服务质量控制（与互联网的可扩展性本质相悖）</li>
-<li>对 new IP 的批判</li>
-</ul>
-</li>
-</ul>
-
-      
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/20/Extensible-NGI/" rel="prev" title="讲座：可扩展的下一代互联网（李丹）">
+      <i class="fa fa-chevron-left"></i> 讲座：可扩展的下一代互联网（李丹）
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
-  
-
-
   
 
 
@@ -455,6 +329,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Model"><span class="nav-number">2.</span> <span class="nav-text">Model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deployment-Options"><span class="nav-number">3.</span> <span class="nav-text">Deployment Options</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scalability-Optimizations"><span class="nav-number">4.</span> <span class="nav-text">Scalability Optimizations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reliability-Optimizations"><span class="nav-number">5.</span> <span class="nav-text">Reliability Optimizations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scenario-with-Multiple-Assignment-Methods"><span class="nav-number">6.</span> <span class="nav-text">Scenario with Multiple Assignment Methods</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Prefix-Configuration"><span class="nav-number">7.</span> <span class="nav-text">Prefix Configuration</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Security-Considerations"><span class="nav-number">8.</span> <span class="nav-text">Security Considerations</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
