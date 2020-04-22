@@ -27,8 +27,8 @@
 <meta property="og:site_name" content="CLT">
 <meta property="og:description" content="安装 Mathematica  完成数学作业    微积分篇    求 \(z&#x3D;x^y\) 在 (1, 1) 处的三阶 Taylor 多项式   1Expand[Normal[Series[x^y,&amp;#123;x,1,3&amp;#125;,&amp;#123;y,1,3&amp;#125;]]]   当 \(1\le x+y-z\le 2\), \(x+y+z&#x3D;0\) 时，求 \(u&#x3D;x^2+y^2+z^2\) 的">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-04-22T11:38:45.000Z">
-<meta property="article:modified_time" content="2020-04-22T12:07:31.568Z">
+<meta property="article:published_time" content="2020-04-22T12:10:52.000Z">
+<meta property="article:modified_time" content="2020-04-22T12:11:21.857Z">
 <meta property="article:author" content="CLT">
 <meta property="article:tag" content="tools">
 <meta name="twitter:card" content="summary">
@@ -175,7 +175,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-04-22 19:38:45 / Modified: 20:07:31" itemprop="dateCreated datePublished" datetime="2020-04-22T19:38:45+08:00">2020-04-22</time>
+              <time title="Created: 2020-04-22 20:10:52 / Modified: 20:11:21" itemprop="dateCreated datePublished" datetime="2020-04-22T20:10:52+08:00">2020-04-22</time>
             </span>
 
           
@@ -449,59 +449,6 @@
   
 
   
-      
-
-<script>
-  if (typeof MathJax === 'undefined') {
-    window.MathJax = {
-      loader: {
-        source: {
-          '[tex]/amsCd': '[tex]/amscd',
-          '[tex]/AMScd': '[tex]/amscd'
-        }
-      },
-      tex: {
-        inlineMath: {'[+]': [['$', '$']]},
-        tags: 'ams'
-      },
-      options: {
-        renderActions: {
-          findScript: [10, doc => {
-            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
-              const display = !!node.type.match(/; *mode=display/);
-              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
-              const text = document.createTextNode('');
-              node.parentNode.replaceChild(text, node);
-              math.start = {node: text, delim: '', n: 0};
-              math.end = {node: text, delim: '', n: 0};
-              doc.math.push(math);
-            });
-          }, '', false],
-          insertedScript: [200, () => {
-            document.querySelectorAll('mjx-container').forEach(node => {
-              let target = node.parentNode;
-              if (target.nodeName.toLowerCase() === 'li') {
-                target.parentNode.classList.add('has-jax');
-              }
-            });
-          }, '', false]
-        }
-      }
-    };
-    (function () {
-      var script = document.createElement('script');
-      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-      script.defer = true;
-      document.head.appendChild(script);
-    })();
-  } else {
-    MathJax.startup.document.state(0);
-    MathJax.texReset();
-    MathJax.typeset();
-  }
-</script>
-
-    
 
   
 
