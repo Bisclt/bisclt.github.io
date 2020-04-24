@@ -28,7 +28,7 @@
 <meta property="og:description" content="Introduction  因为路由器在转发 IP 数据包时，并没有用到 IP 源地址，所以源地址可以由发送主机任意选择，造成欺骗。 SAVI 的目标是在小的粒度 (fine granularity) 下，对个人 IP 地址进行过滤。  为了适应各种网络的需求，SAVI 采取了可扩展的设计。 Model SAVI 不应当依赖主机的功能，所以是 purely network based。为了强制主机">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-04-21T09:07:13.000Z">
-<meta property="article:modified_time" content="2020-04-21T09:08:08.794Z">
+<meta property="article:modified_time" content="2020-04-24T14:17:56.288Z">
 <meta property="article:author" content="CLT">
 <meta property="article:tag" content="study notes">
 <meta name="twitter:card" content="summary">
@@ -173,10 +173,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-04-21 17:07:13 / Modified: 17:08:08" itemprop="dateCreated datePublished" datetime="2020-04-21T17:07:13+08:00">2020-04-21</time>
+              <time title="Created: 2020-04-21 17:07:13" itemprop="dateCreated datePublished" datetime="2020-04-21T17:07:13+08:00">2020-04-21</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-04-24 22:17:56" itemprop="dateModified" datetime="2020-04-24T22:17:56+08:00">2020-04-24</time>
+              </span>
 
           
             <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
@@ -241,7 +247,7 @@
 <p> 由于多种 IP 分配方法可能被用于同一个网络，SAVI 设备需要同时采用多种 binding 的发现方法。如果不同的 IP 分配方法分配的是不同的地址前缀，那么这个问题不存在；复杂的情况在于同一个地址前缀存在不同的 IP 分配方案 (mix scenario) 。</p>
 <p> 不同地址分配方案 (DHCP [RFC 2131], DHCPv6 [RFC 3315], SLAAC [RFC 4862], and SEND [RFC 3971]) 的优先级是解决此问题的基础。然而，在一些情况下，默认的优先级顺序并不合适。所以对于 mix scenario ，SAVI 应当支持可配置的优先级。</p>
 <h2 id="prefix-configuration">Prefix Configuration</h2>
-<p> 在建立 host-level binding 之前，需要在 SAVI 设备上设置正确的前缀。有以下几种机制：</p>
+<p> 在建立 host-level binding 之前，需要在 SAVI 设备上设置正确的前缀，利用这些前缀作为白名单来过滤违规源地址。有以下几种机制：</p>
 <ul>
 <li><p>Manual Prefix Configuration: The allowed prefix scope of IPv4 addresses, IPv6 static addresses, IPv6 addresses assigned by Stateless Address Autoconfiguration (SLAAC), and IPv6 addresses assigned by DHCPv6 can be set manually at the SAVI device. FE80::/64 is always a feasible prefix in IPv6.</p></li>
 <li><p>Prefix Configuration by Router Advertisement (RA) Snooping: The allowed prefix scope of IPv6 static addresses and IPv6 addresses assigned by SLAAC can be set at the SAVI device through snooping an RA message at the SAVI device.</p></li>
@@ -249,7 +255,7 @@
 </ul>
 <p> 建议：</p>
 <ul>
-<li><p> 如果一些前缀被设置为空，则该地址分配方案将不被允许。（不懂.jpg）</p></li>
+<li><p> 如果在某方案中，前缀被设置为空，则该地址分配方案不被允许在当前网络上使用。</p></li>
 <li><p> 不需要将这些前缀范围展示出来，但是这些限制应当在 binding 建立之初被用作检查。</p></li>
 <li><p> 当 SAVI 未被完全部署时，建议使用手动设置。</p></li>
 </ul>
