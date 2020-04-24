@@ -29,7 +29,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://yoursite.com/2020/04/24/Computer-Networks-Review/TCP%20handshakes.png">
 <meta property="article:published_time" content="2020-04-24T13:25:17.000Z">
-<meta property="article:modified_time" content="2020-04-24T13:44:29.023Z">
+<meta property="article:modified_time" content="2020-04-24T13:55:29.405Z">
 <meta property="article:author" content="CLT">
 <meta property="article:tag" content="study notes">
 <meta name="twitter:card" content="summary">
@@ -177,7 +177,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-04-24 21:25:17 / Modified: 21:44:29" itemprop="dateCreated datePublished" datetime="2020-04-24T21:25:17+08:00">2020-04-24</time>
+              <time title="Created: 2020-04-24 21:25:17 / Modified: 21:55:29" itemprop="dateCreated datePublished" datetime="2020-04-24T21:25:17+08:00">2020-04-24</time>
             </span>
 
           
@@ -208,7 +208,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"> 0      7 8     15 16    23 24    31  </span><br><span class="line">+--------+--------+--------+--------+ </span><br><span class="line">|     Source      |   Destination   | </span><br><span class="line">|      Port       |      Port       | </span><br><span class="line">+--------+--------+--------+--------+ </span><br><span class="line">|                 |                 | </span><br><span class="line">|     Length      |    Checksum     | </span><br><span class="line">+--------+--------+--------+--------+ </span><br><span class="line">|                                     </span><br><span class="line">|          data octets ...            </span><br><span class="line">+---------------- ...                 </span><br><span class="line"></span><br><span class="line">     User Datagram Header Format</span><br></pre></td></tr></table></figure>
 <p>UDP 的最主要价值是增加了端口，使应用程序知道如何处理数据包。UDP 最大长度是 65515 字节 (由 IP 限制)；校验和校验以下内容：IP 伪头、UDP 头和数据，最后由 0 填充至整数个 16 位。IP 伪头如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> 0      7 8     15 16    23 24    31 </span><br><span class="line">+--------+--------+--------+--------+</span><br><span class="line">|          source address           |</span><br><span class="line">+--------+--------+--------+--------+</span><br><span class="line">|        destination address        |</span><br><span class="line">+--------+--------+--------+--------+</span><br><span class="line">|  zero  |protocol|   UDP length    |</span><br><span class="line">+--------+--------+--------+--------+</span><br></pre></td></tr></table></figure>
-<p> 其中对应于 UDP 的 protocol 为 17，TCP 为 4。</p>
+<p> 其中对应于 UDP 的 protocol 为 17，TCP 为 6。</p>
 <p>UDP 协议广泛应用于以下情况 </p>
 <h3 id="客户机 --- 服务器 -rpc"> 客户机 - 服务器 RPC</h3>
 <p> 例如 DNS</p>
