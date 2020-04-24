@@ -170,7 +170,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-04-24 21:25:17 / Modified: 21:55:29" itemprop="dateCreated datePublished" datetime="2020-04-24T21:25:17+08:00">2020-04-24</time>
+              <time title="Created: 2020-04-24 21:25:17 / Modified: 22:11:21" itemprop="dateCreated datePublished" datetime="2020-04-24T21:25:17+08:00">2020-04-24</time>
             </span>
 
           
@@ -188,8 +188,8 @@
 <h2 id="概述"> 概述 </h2>
 <p> 传输层为两台计算机的进程之间提供数据传递服务，为应用层使用网络提供抽象接口。利用网络层服务，完成传输工作的软硬件称为传输实体。因为用户无法掌控网络层 (路由器由运营商管理)，所以要在网络层上再加一层以提高服务质量。</p>
 <p> 传输层的目标是在不可靠的网络上提供可靠的服务，但也可以提供不可靠服务。</p>
-<p> 在建立连接时，应用进程把自己关联到一个本地 TSAP (在 Internet 中称为 port) 上，以便与远程的 TSAP 建立连接。建立连接后的管理中，关键问题是差错控制和流量控制。由于链路层的校验只能保护穿过单条链路的帧，无法发现在路由器内部产生的错误，因此传输层需要提供端到段的校验。对于链路层，链路带宽延迟乘积小，可以使用小窗口；TCP 则需要使用大的滑动窗口。</p>
-<p> 网络层的拥塞终究是由于传输层发包太快引起的，因此控制拥塞的根本途径是传输层减慢发包速度。拥塞控制的目标是找到好的带宽分配方法，兼顾效率与公平 (最大 - 最小公平)。如何调整发送速率以便获得理想的贷款分配呢？要考虑流量控制 (接收方缓冲区小) 和拥塞控制 (带宽不够)。前者由可变大小窗口解决，解决后者的流行做法是把丢包作为拥塞信号 (在可靠的有限连接中)，在丢包率大的无线网络中，需要采用无线链路上的重传机制来掩盖传输错误引起的丢包 (屏蔽策略)。TCP 采取 AIMD 作为拥塞控制法则，因为该方案收敛到最优点且具有稳定性 (积极减小，缓慢增加)。</p>
+<p> 在建立连接时，应用进程把自己关联到一个本地 TSAP (在 Internet 中称为 port) 上，以便与远程的 TSAP 建立连接。建立连接后的管理中，关键问题是差错控制和流量控制。由于链路层的校验只能保护穿过单条链路的帧，无法发现在路由器内部产生的错误，因此传输层需要提供端到端的校验。对于链路层，链路带宽延迟乘积小，可以使用小窗口；TCP 则需要使用大的滑动窗口。</p>
+<p> 网络层的拥塞终究是由于传输层发包太快引起的，因此控制拥塞的根本途径是传输层减慢发包速度。拥塞控制的目标是找到好的带宽分配方法，兼顾效率与公平 (最大 - 最小公平)。如何调整发送速率以便获得理想的带宽分配呢？要考虑流量控制 (接收方缓冲区小) 和拥塞控制 (带宽不够)。前者由可变大小窗口解决，解决后者的流行做法是把丢包作为拥塞信号 (在可靠的有线连接中)，在丢包率大的无线网络中，需要采用无线链路上的重传机制来掩盖传输错误引起的丢包 (屏蔽策略)。TCP 采取 AIMD 作为拥塞控制法则，因为该方案收敛到最优点且具有稳定性 (积极减小，缓慢增加)。</p>
 <h2 id="udp-rfc-768">UDP [<a href="https://datatracker.ietf.org/doc/rfc768/?include_text=1" target="_blank" rel="noopener">RFC 768</a>]</h2>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"> 0      7 8     15 16    23 24    31  </span><br><span class="line">+--------+--------+--------+--------+ </span><br><span class="line">|     Source      |   Destination   | </span><br><span class="line">|      Port       |      Port       | </span><br><span class="line">+--------+--------+--------+--------+ </span><br><span class="line">|                 |                 | </span><br><span class="line">|     Length      |    Checksum     | </span><br><span class="line">+--------+--------+--------+--------+ </span><br><span class="line">|                                     </span><br><span class="line">|          data octets ...            </span><br><span class="line">+---------------- ...                 </span><br><span class="line"></span><br><span class="line">     User Datagram Header Format</span><br></pre></td></tr></table></figure>
 <p>UDP 的最主要价值是增加了端口，使应用程序知道如何处理数据包。UDP 最大长度是 65515 字节 (由 IP 限制)；校验和校验以下内容：IP 伪头、UDP 头和数据，最后由 0 填充至整数个 16 位。IP 伪头如下：</p>
