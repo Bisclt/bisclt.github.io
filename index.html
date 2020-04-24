@@ -418,7 +418,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-24 22:17:56" itemprop="dateModified" datetime="2020-04-24T22:17:56+08:00">2020-04-24</time>
+                <time title="Modified: 2020-04-24 22:37:36" itemprop="dateModified" datetime="2020-04-24T22:37:36+08:00">2020-04-24</time>
               </span>
 
           
@@ -465,6 +465,7 @@
 <h2 id="scalability-optimizations">Scalability Optimizations</h2>
 <p> 因为倾向于将 SAVI 配置在距离主机较近的位置，对于大型的网络，必然会出现许多 SAVI 同时存在的情况。如果一个 SAVI 为连接上的所有 IP 地址创建 binding，就会引起冗余，消耗内存，增加成本。因此每个 SAVI 只对直接连接它，或者通过未部署 SAVI 的交换机连接它的主机负责。所有部署 SAVI 的交换机形成一个 "protection perimeter"。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">                                        ..............</span><br><span class="line">              protection perimeter --&gt;  : +--------+ :</span><br><span class="line"> +---+  +---+                           : |  SAVI  | :</span><br><span class="line"> | A |  | B |  &lt;-- hosts                : | switch | :</span><br><span class="line"> +---+  +---+                           : +--------+ :</span><br><span class="line">...|......|.............................:        |   :</span><br><span class="line">: +--------+          +--------+          +--------+ :</span><br><span class="line">: |  SAVI  |----------| legacy |          |  SAVI  | :</span><br><span class="line">: | switch |          | switch |----------| switch | :</span><br><span class="line">: +--------+          +--------+          +--------+ :</span><br><span class="line">:   |        ...............................|........:</span><br><span class="line">: +--------+ :                            +--------+</span><br><span class="line">: |  SAVI  | :                            | legacy |</span><br><span class="line">: | switch | :                            | switch |</span><br><span class="line">: +--------+ :                            +--------+</span><br><span class="line">:............:                             |      |</span><br><span class="line">                                         +---+  +---+</span><br><span class="line">                              hosts --&gt;  | C |  | D |</span><br><span class="line">                                         +---+  +---+</span><br></pre></td></tr></table></figure>
+<p> 所有经过 protection perimeter 的边界的数据包都会被 SAVI 检查源地址，仅当数据包始终处于内部或外部时不执行检查。</p>
 <h2 id="reliability-optimizations">Reliability Optimizations</h2>
 <p> 因为合法 IP 通过 binding 的形式储存在 SAVI 设备中，那么以下情况会导致假阳性：</p>
 <ul>
