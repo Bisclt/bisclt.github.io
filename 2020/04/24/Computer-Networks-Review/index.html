@@ -20,16 +20,16 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="传输层   概述   传输层为两台计算机的进程之间提供数据传递服务，为应用层使用网络提供抽象接口。利用网络层服务，完成传输工作的软硬件称为传输实体。因为用户无法掌控网络层 (路由器由运营商管理)，所以要在网络层上再加一层以提高服务质量。  传输层的目标是在不可靠的网络上提供可靠的服务，但也可以提供不可靠服务。  在建立连接时，应用进程把自己关联到一个本地 TSAP (在 Internet 中称为">
+  <meta name="description" content="网络层   网络层的设计问题   网络层的目标    向上提供的服务应该独立于路由器技术   向上层屏蔽路由器拓扑信息   网络地址具有统一编码方案    是否面向连接    虚电路网络：建立阶段花费成本，鲁棒性差，但服务质量和拥塞控制较易掌控   数据报网络：鲁棒性强，允许路由器平衡网络流量 (所有包不需要走同一条路)   路由算法   路由算法分为非自适应算法 (静态路由，用于路由选择十分清">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Computer Networks Review">
 <meta property="og:url" content="http://yoursite.com/2020/04/24/Computer-Networks-Review/index.html">
 <meta property="og:site_name" content="CLT">
-<meta property="og:description" content="传输层   概述   传输层为两台计算机的进程之间提供数据传递服务，为应用层使用网络提供抽象接口。利用网络层服务，完成传输工作的软硬件称为传输实体。因为用户无法掌控网络层 (路由器由运营商管理)，所以要在网络层上再加一层以提高服务质量。  传输层的目标是在不可靠的网络上提供可靠的服务，但也可以提供不可靠服务。  在建立连接时，应用进程把自己关联到一个本地 TSAP (在 Internet 中称为">
+<meta property="og:description" content="网络层   网络层的设计问题   网络层的目标    向上提供的服务应该独立于路由器技术   向上层屏蔽路由器拓扑信息   网络地址具有统一编码方案    是否面向连接    虚电路网络：建立阶段花费成本，鲁棒性差，但服务质量和拥塞控制较易掌控   数据报网络：鲁棒性强，允许路由器平衡网络流量 (所有包不需要走同一条路)   路由算法   路由算法分为非自适应算法 (静态路由，用于路由选择十分清">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://yoursite.com/2020/04/24/Computer-Networks-Review/TCP%20handshakes.png">
 <meta property="article:published_time" content="2020-04-24T13:25:17.000Z">
-<meta property="article:modified_time" content="2020-04-25T06:38:40.570Z">
+<meta property="article:modified_time" content="2020-04-25T14:29:37.092Z">
 <meta property="article:author" content="CLT">
 <meta property="article:tag" content="study notes">
 <meta name="twitter:card" content="summary">
@@ -183,7 +183,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-25 14:38:40" itemprop="dateModified" datetime="2020-04-25T14:38:40+08:00">2020-04-25</time>
+                <time title="Modified: 2020-04-25 22:29:37" itemprop="dateModified" datetime="2020-04-25T22:29:37+08:00">2020-04-25</time>
               </span>
 
           
@@ -204,7 +204,224 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="传输层"> 传输层 </h1>
+        <h1 id="网络层"> 网络层 </h1>
+<h2 id="网络层的设计问题"> 网络层的设计问题 </h2>
+<h3 id="网络层的目标"> 网络层的目标 </h3>
+<ol type="1">
+<li> 向上提供的服务应该独立于路由器技术 </li>
+<li> 向上层屏蔽路由器拓扑信息 </li>
+<li> 网络地址具有统一编码方案 </li>
+</ol>
+<h3 id="是否面向连接"> 是否面向连接 </h3>
+<ul>
+<li> 虚电路网络：建立阶段花费成本，鲁棒性差，但服务质量和拥塞控制较易掌控 </li>
+<li> 数据报网络：鲁棒性强，允许路由器平衡网络流量 (所有包不需要走同一条路)</li>
+</ul>
+<h2 id="路由算法"> 路由算法 </h2>
+<p> 路由算法分为非自适应算法 (静态路由，用于路由选择十分清除的场合) 和自适应算法 (动态路由，路由决策随拓扑状态而改变) 。</p>
+<h3 id="泛洪算法"> 泛洪算法 </h3>
+<p> 鲁棒性很好，可以用于战争地区的军事网络，且总能找到最短延迟的路径。</p>
+<h3 id="距离矢量路由"> 距离矢量路由 </h3>
+<p> 每个路由器维护一张表，存储它到已知的每个目标的最佳路径和距离，表通过邻居交换信息被更新，最终所有路由器都获得到达任意目的地的最佳链路。然而收敛过程可能缓慢 (无穷计数) ，使用带有染毒逆向的水平分裂法等优化，实际工作效果不好，1979 年被 ARPANET 替换为链路状态路由。</p>
+<h3 id="链路状态路由 -is-is-ospf-etc."> 链路状态路由 (IS-IS, OSPF, etc.)</h3>
+<ol type="1">
+<li> 发现邻居：当路由器启动时，首先在每一条点到点线路上发送 HELLO 数据包，线路另一端的路由器以全局唯一的名字回应 </li>
+<li> 设置链路成本：将链路成本设置为与链路带宽与传输延迟相关 </li>
+<li> 构造链路状态包：包含发送方标识符、序号、年龄和到各个邻居的延迟 </li>
+<li> 分发链路状态包：使用泛洪法，其他路由器记录自己看到过的来自源路由器的最大序号 (为防止回绕，采用 32 位序号) ，丢弃老旧数据包；年龄字段每秒钟减一，减为零后丢弃该信息。 (不懂.jpg)</li>
+<li> 计算新路由：路由器因为已经拥有所有链路状态数据包，可以在本地运行 Dijkstra 算法。</li>
+</ol>
+<p> 随着网络规模增长，路由表爆炸，消耗路由器内存等资源，是以采用分层路由。对于一个包含 <span class="math inline">\(N\)</span> 个路由器的网络，最优层数为 <span class="math inline">\(\log N\)</span>，每个路由器所需路由器表项为 <span class="math inline">\(e \log N\)</span> 个。</p>
+<h3 id="广播路由"> 广播路由 </h3>
+<p> 存在多种广播技术：多目标路由 (每个包包含一组目标地址，路由器为每一条线路生成副本) 、泛洪、逆向路径转发 (优雅而简单) 。</p>
+<h3 id="组播路由"> 组播路由 </h3>
+<p> 组播路由方案建立在广播路由方案的基础上，数据包沿着生成树发送。为了减少浪费，需要修剪广播树，得到一颗有效的组播生成树。当采用链路状态路由时 (MOSPF) ，每个路由器针对组内每个发送者构造一颗生成树；采用距离矢量路由时 (DVMRP) ，使用逆向路径转发。在只有一个发送者的情况下，采用基于核心树 (core-based trees) 的技术减小路由器的工作量；该方法也因为大大节省储存、计算等开销被用于 Internet 的稀疏组播 (PIM) 。</p>
+<h3 id="选播路由"> 选播路由 </h3>
+<p> 数据包被传递给最近的一个组成员，用于客户只需要获得正确的信息而非与某个特定节点联系的情况。选播作为域名系统的一部分广泛应用于 Internet 上。</p>
+<h3 id="移动主机路由"> 移动主机路由 </h3>
+<p> 目标是使人们利用固定的家乡地址来发送数据包，因为随着移动主机数量便多，每次移动之后重新计算路由变得不可行；另一种方法是每当主机移动到新地址，它会获得一个新的网络地址 (如今流行这种做法) ，但其他主机无法向它发送数据包。</p>
+<p>IPv6 移动模型：移动主机在外地获得一个转交地址 (care of address) ，并把自己的位置信息告诉处于家乡位置的家乡代理 (home agent) 。发送者向移动主机发送数据包时，数据包到达家乡代理，家乡代理用一个新的头封装该数据包，转发给转交地址。移动主机获得数据包后，直接向发送者发应答数据包，但仍然使用家乡地址作为源地址。整个路由过程成为三角路由。数据包传送时可以使用加密协议。</p>
+<h3 id="自组织网络路由"> 自组织网络路由 </h3>
+<p> 当路由器本身也移动时 (如地震现场、战场上等) ，每个节点需要同时扮演路由器和主机的角色。因为所有节点都在移动，网络拓扑概念失效。由于此种网络很少使用，尚未确定最优协议。最流行的路由算法为 Ad hoc 按需距离矢量 (AODV) 路由算法。</p>
+<h2 id="拥塞控制算法"> 拥塞控制算法 </h2>
+<p>### 流量感知路由 </p>
+<p> 如果路由方案采取固定链路权重，将无法适应负载的变化。早期 Internet 使用的流量感知路由把链路权重设置为链路带宽、传输延迟、测量负载或平均排队延迟的函数，然而可能引发路由振荡等问题。因此如今 Internet 路由协议不依赖于负载，而采用 <a href="https://www.cnblogs.com/sddai/p/5988195.html" target="_blank" rel="noopener"> 流量工程 (traffic engineering)</a>。</p>
+<h3 id="准入控制"> 准入控制 </h3>
+<p> 广泛应用于虚电路网络，采取漏桶 (leaky bucket) 或令牌桶 (token bucket) 的机制，可以同时约束平均速率和突发流量。准入控制可以与流量感知路由相结合，将新建的虚电路绕开拥塞的路由器。</p>
+<h3 id="流量调节"> 流量调节 </h3>
+<ul>
+<li> 感知 (路由器如何知道快要接近拥塞)
+<ul>
+<li> 输出线路的利用率 (未考虑突发流量)</li>
+<li> 在路由器内缓冲的排队数据包 (最有用)</li>
+<li> 因缓冲不足而丢失的数据包 (太迟了)</li>
+</ul></li>
+<li> 反馈 (如何把拥塞信息传递给发送方)
+<ul>
+<li> 抑制包 </li>
+<li> 显式拥塞通知 (ECN) ：在转发的数据包上打标记，使接收方在应答时附上拥塞信息 </li>
+<li> 逐跳后压 (让抑制包在每一条发挥作用)</li>
+</ul></li>
+</ul>
+<h3 id="负载脱落"> 负载脱落 </h3>
+<p> 路由器的杀手锏，葡萄酒和牛奶；随机早期检测 (RED) 当链路上的平均队列长度超过阈值时随机丢包，传输层收到丢包信息后便会放慢速度。</p>
+<h2 id="服务质量"> 服务质量 </h2>
+<p> 某些应用需要网络具有很强的性能保障，而非仅仅尽力而为。确保服务质量需要解决以下问题：</p>
+<ol type="1">
+<li> 应用程序需要网络的质量如何？</li>
+<li> 如何规范进入网络的流量？</li>
+<li> 为了保障性能如何在路由器上预留资源？</li>
+<li> 网络能否安全地接受更多流量？</li>
+</ol>
+<ul>
+<li> 应用需求：为了适应各种应用，网络可以支持不同类别的 QoS</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th> 应用 </th>
+<th> 带宽 </th>
+<th> 延迟 </th>
+<th> 抖动 </th>
+<th> 丢失 </th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td> 电子邮件 </td>
+<td> 低 </td>
+<td> 低 </td>
+<td> 低 </td>
+<td> 中等 </td>
+</tr>
+<tr class="even">
+<td> 浏览网页 </td>
+<td> 中等 </td>
+<td> 中等 </td>
+<td> 低 </td>
+<td> 中等 </td>
+</tr>
+<tr class="odd">
+<td> 视频电话 </td>
+<td> 高 </td>
+<td> 高 </td>
+<td> 高 </td>
+<td> 低 </td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p> 流量整形：指调节进入网络的数据流的平均速率和突发性所采用的技术，可使用漏桶和令牌桶。</p></li>
+<li> 包调度：FIFO/fair queuing/WFO</li>
+<li><p> 准入控制 </p></li>
+</ul>
+<h3 id="综合服务"> 综合服务 </h3>
+<p>IETF 在 1995 到 1997 年间设计了流式多媒体的体系结构，此工作称为综合服务 (integrated service) 。综合服务体系结构中最主要的部分是资源预留协议 (RSVP) ，该算法基于流，能为流提供好的服务质量，然而需要为每个流预先设置，可扩展性较差，因此几乎没有实际部署。</p>
+<h3 id="区分服务"> 区分服务 </h3>
+<p> 作为综合服务的替代品，区分服务由每个路由器本地实现，无需提前设置流，称为基于类别的服务质量 (区分服务) 。区分服务由一组路由器提供，这些路由器构成一个管理域。若客户订购了区分服务，则进入该管理域的客户数据包会被标记 (在 IP 的区分服务字段) ，服务类别定义为单跳行为 (PHP) 。</p>
+<h2 id="网络互联"> 网络互联 </h2>
+<h3 id="隧道"> 隧道 </h3>
+<p> 处理两个不同网络相互连接时的一般情况极其困难。一种特殊情况是：源主机和目标主机所在网络的类型相同，但途中有不同类型的网络。此时用到隧道技术，生成的网络称为覆盖 (overlay) 网络。隧道的缺点是数据包无法到达位于隧道之下的网络。</p>
+<h3 id="互联网路由"> 互联网路由 </h3>
+<p> 不同的网络使用不同的路由算法，故导致两级路由算法的产生：AS 内部与 AS 之间采取不同的方案。</p>
+<h3 id="数据包分段"> 数据包分段 </h3>
+<p> 每个网络限制其数据包的最大长度，而主机为了降低开销，倾向于传输大的数据包，导致分段，引发一系列问题。现代 Internet 采取的解决方案是在网络中避免分段操作。通过路径 MTU 发现 (path MTU discovery) ，源端在每个 IP 数据包的头部设置不允许分段操作，这样的包被路径上的某个路由器限制住时，路由器将其丢弃 (可以稍加改进以缓解启动延迟) ，并返回报错数据，源端减小发送的包的大小，直到没有报错信息产生。</p>
+<h2 id="internet- 的网络层">Internet 的网络层 </h2>
+<h3 id="原则 -rfc-1958"> 原则 [<a href="https://datatracker.ietf.org/doc/rfc1958/?include_text=1" target="_blank" rel="noopener">RFC 1958</a>]</h3>
+<p>(转自 <a href="https://my.oschina.net/lionets/blog/363305" target="_blank" rel="noopener"> 这里 </a>)</p>
+<ol type="1">
+<li> 保证工作。直到确认原型系统可以正常运行，才可以完成设计或确定标准。</li>
+<li> 保持简单。有疑问时应该使用最简单的解决方案。即如果一项特性并非绝对必要，就应该被砍掉，尤其当可以通过其他简单特性的组合也可以达到相同效果的时候。 (注：也许这里的难点在于确认一套最小功能集)</li>
+<li> 明确选择。解决一个问题应当有且只有一种解决方案，这与 Python 的理念相同。</li>
+<li> 模块开发。使用栈结构组织功能。</li>
+<li> 期望异构性。设计必须通用且灵活，保证兼容性。</li>
+<li> 避免静态选项和参数。如果不可避免要使用参数的话，那么最好的办法是让发送和接收方协商一个值，而不是定义静态参数。 (注：这一条对 app 的指导意义也许可以转换为，设计对象的时候，请尽可能多地将可配置项添加到参数里，而非使用内部常量)</li>
+<li> 寻找好的而不是完美的设计。不必为应对特殊情况而牺牲设计的简单性。特殊情况可以特别处理。</li>
+<li> 严格发送，宽容接收。保证自己发出的数据都是严格符合标准的，但在接收时可以尝试对非标准请求进行处理。</li>
+<li> 考虑可扩展性。即分布式支持。</li>
+<li> 考虑性能和成本。</li>
+</ol>
+<h3 id="ipv4-rfc-791">IPv4 [<a href="https://datatracker.ietf.org/doc/rfc791/?include_text=1" target="_blank" rel="noopener">RFC 791</a>]</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> 0                   1                   2                   3   </span><br><span class="line"> 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 </span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|Version|  IHL  | Diff Services |          Total Length         |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|         Identification        |Flags|      Fragment Offset    |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|  Time to Live |    Protocol   |         Header Checksum       |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|                       Source Address                          |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|                    Destination Address                        |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|                    Options                    |    Padding    |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br></pre></td></tr></table></figure>
+<p>IHL 指出头有多少个 32 位字，最多为 60 字节，故 Options 字段最多 40 字节，这样的选项没有什么用处。区分服务 (Differentiated services) 前六位标记数据包的服务类别，后两位用来携带 ECN 信息。Flags 如下图：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  0   1   2</span><br><span class="line">+---+---+---+</span><br><span class="line">|   | D | M |</span><br><span class="line">| 0 | F | F |</span><br><span class="line">+---+---+---+</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>DF 代表不允许路由器分割该数据报，用于发现路径 MTU。</p></li>
+<li><p>MF 代表更多的段，告诉接收方何时一个数据报的所有分段都已经到达。</p></li>
+</ul>
+<p> 分段偏移量 (Fragment offset) 指出该段在当前数据报中的位置。TTL 实际上只是跳计数器，减为 0 时路由器给源主机发送报警包。Protocol 指出使用何种传输协议对内容进行处理。因为头中含有目的地址这样的关键信息，头校验和是必要的。</p>
+<h3 id="ipv6-rfc-2460">IPv6 [<a href="https://datatracker.ietf.org/doc/rfc2460/?include_text=1" target="_blank" rel="noopener">RFC 2460</a>]</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|Version| Diff Services |           Flow Label                  |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|         Payload Length        |  Next Header  |   Hop Limit   |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|                                                               |</span><br><span class="line">+                                                               +</span><br><span class="line">|                                                               |</span><br><span class="line">+                         Source Address                        +</span><br><span class="line">|                                                               |</span><br><span class="line">+                                                               +</span><br><span class="line">|                                                               |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|                                                               |</span><br><span class="line">+                                                               +</span><br><span class="line">|                                                               |</span><br><span class="line">+                      Destination Address                      +</span><br><span class="line">|                                                               |</span><br><span class="line">+                                                               +</span><br><span class="line">|                                                               |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br></pre></td></tr></table></figure>
+<p> 流标签 (Flow Label) 字段提供一种建立伪连接的方式，源端和接收方把一组具有相同需求并希望得到网络同等对待的数据包打上标记。当一个流标签字段非 0 的包出现时，路由器在内部表中查找该值，提供相应服务。一对 IP 地址之间可以同时存在 220 个活跃的流。下一个头 (Next Header) 指出当前头部之后还有哪种扩展头，若没有，则指定上层的传输协议。去掉校验和 (Checksum) 是因为目前大多使用可靠网络，而计算校验和会极大降低性能，不值得。</p>
+<p> 扩展头编码成 TLV 三元组，目前定义了如下 6 种：</p>
+<table>
+<thead>
+<tr class="header">
+<th> 扩展头 </th>
+<th> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td> 逐跳选项 </td>
+<td> 存放沿途所有路由器必须要检查的信息 </td>
+</tr>
+<tr class="even">
+<td> 目标选项 </td>
+<td> 用于只需被目标主机翻译的字段 (不懂.jpg)</td>
+</tr>
+<tr class="odd">
+<td> 路由 </td>
+<td> 列出在通向目标的途中必须经过的路由器 </td>
+</tr>
+<tr class="even">
+<td> 分段 </td>
+<td> 与 IPv4 类似，但只有源主机可以将数据包进行分段 </td>
+</tr>
+<tr class="odd">
+<td> 认证 </td>
+<td> 让接收方确定发送方身份，使用密码学技术 </td>
+</tr>
+<tr class="even">
+<td> 加密安全有效载荷 </td>
+<td> 对数据包内容进行加密，使用密码学技术 </td>
+</tr>
+</tbody>
+</table>
+<h3 id="internet- 控制协议">Internet 控制协议 </h3>
+<ul>
+<li><p>ICMP [<a href="https://datatracker.ietf.org/doc/rfc792/?include_text=1" target="_blank" rel="noopener">RFC 792</a>]</p></li>
+<li><p>ARP [<a href="https://datatracker.ietf.org/doc/rfc826/?include_text=1" target="_blank" rel="noopener">RFC 826</a>]</p></li>
+<li><p>DHCP [<a href="https://datatracker.ietf.org/doc/rfc2131/?include_text=1" target="_blank" rel="noopener">RFC 2131</a>] [<a href="https://datatracker.ietf.org/doc/rfc2132/?include_text=1" target="_blank" rel="noopener">RFC 2132</a>]</p></li>
+</ul>
+<h3 id="标签交换和 -mpls"> 标签交换和 MPLS</h3>
+<p>MPLS 在每个数据包前面增加一个标签，路由器根据数据包标签而非数据包目标地址实施转发。因为 IP 并非针对虚电路设计，IP 头部没有空间存放标签，因此要在 IP 数据包头前面加上一个新的 MPLS 头。多协议 (MP) 的由来：可以制造同时转发 IP 和非 IP 数据包的 MPLS 交换机，或者通过非 IP 网络来运载 IP 数据包。</p>
+<p> 当一个 IP 数据包到达 MPLS 网络边缘，标签边缘路由器 (LER) 检查其目标 IP 地址，并贴标签；到达 MPLS 网络的另一端时，删除标签。常常把终止在某个特定路由器或 LAN 的流合并，为这些流 (称作转发等价类) 使用同一个标签。</p>
+<p> 还可以使用标签栈 (stack of label) ，引导不同标签的数据包沿共同的路径前进 (妙啊) 。</p>
+<h3 id="ospf">OSPF</h3>
+<p> 借鉴了 IS-IS，于 1990 年成为标准。OSPF 的设计目标：</p>
+<ol type="1">
+<li> 算法必须公开，不能由某公司私有 </li>
+<li> 支持多种距离度量 </li>
+<li> 动态算法，能自动且快速地适应网络拓扑变化 </li>
+<li> 支持基于服务类型的路由 </li>
+<li> 实现负载均衡 </li>
+<li> 支持层次化系统 </li>
+<li> 提供适度的安全性 </li>
+<li> 能处理通过隧道连接到 Internet 的路由器 </li>
+</ol>
+<p>OSPF 把大的 AS 划分成编号的互不重叠的区域。每个 AS 有一个骨干区域 (backbone area) ，其中的所有路由器成为骨干路由器。所有区域都必须连接到骨干区域。对于同一区域内部的路由，采用普通的做法；对于跨区域的路由，必须先从源区域到骨干区域，再从骨干区域到目标区域 (相当于把 OSPF 配制成星型结构) 。</p>
+<h3 id="bgp">BGP</h3>
+<p> 在 AS 之间使用，与 AS 内部使用的域内协议目标不同，需要考虑到政治因素。是距离矢量协议的一种形式，然而使用政策而非最小距离进行路由选择。</p>
+<h3 id="internet- 组播">Internet 组播 </h3>
+<p>IP 使用 D 类 IP 地址来支持组播。当一个进程向 D 类地址发送数据包时，网络尽力而为地将其投递给组中的成员。224.0.0.0/24 范围内的地址被保留作为本地网络组播，不需要路由协议的支持。其他情况下，需要路由协议 (因为成员分布在不同的网络上) 。组播路由器每隔一段时间向它所在的 LAN 上的所有主机发送查询数据包，询问主机所属的组，主机给予应答 (IGMP) 。</p>
+<h3 id="移动 -ip"> 移动 IP</h3>
+<p> 当移动主机不在家乡网络时，家乡代理通过 ARP 代理来拦截发给移动主机的数据包。为了快速更新 ARP 映射，采用免费 ARP。细节问题：</p>
+<ol type="1">
+<li> 隧道移动 IP 的原始形式与 NAT (需要偷窥经过的 IP 包并查看其中的 TCP 头或 UDP 头) 不兼容。</li>
+<li>ISP 通过入口过滤检查包的源 IP 地址 (SAVI？) ，使移动主机必须先将应答包发给家乡代理，再由家乡代理发送给另一端，造成迂回。</li>
+</ol>
+<h1 id="传输层"> 传输层 </h1>
 <h2 id="概述"> 概述 </h2>
 <p> 传输层为两台计算机的进程之间提供数据传递服务，为应用层使用网络提供抽象接口。利用网络层服务，完成传输工作的软硬件称为传输实体。因为用户无法掌控网络层 (路由器由运营商管理)，所以要在网络层上再加一层以提高服务质量。</p>
 <p> 传输层的目标是在不可靠的网络上提供可靠的服务，但也可以提供不可靠服务。</p>
@@ -345,7 +562,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#传输层"><span class="nav-number">1.</span> <span class="nav-text"> 传输层 </span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.1.</span> <span class="nav-text"> 概述 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#udp-rfc-768"><span class="nav-number">1.2.</span> <span class="nav-text">UDP [RFC 768]</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#客户机 --- 服务器 -rpc"><span class="nav-number">1.2.1.</span> <span class="nav-text"> 客户机 - 服务器 RPC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实时多媒体应用"><span class="nav-number">1.2.2.</span> <span class="nav-text"> 实时多媒体应用 </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tcp-rfc-793-rfc-4614"><span class="nav-number">1.3.</span> <span class="nav-text">TCP [RFC 793] [RFC 4614]</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tcp- 连接的建立和释放"><span class="nav-number">1.3.1.</span> <span class="nav-text">TCP 连接的建立和释放 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcp- 滑动窗口"><span class="nav-number">1.3.2.</span> <span class="nav-text">TCP 滑动窗口 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcp- 计时器管理"><span class="nav-number">1.3.3.</span> <span class="nav-text">TCP 计时器管理 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcp- 拥塞控制"><span class="nav-number">1.3.4.</span> <span class="nav-text">TCP 拥塞控制 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcp- 的问题"><span class="nav-number">1.3.5.</span> <span class="nav-text">TCP 的问题 </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能问题"><span class="nav-number">1.4.</span> <span class="nav-text"> 性能问题 </span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#网络层"><span class="nav-number">1.</span> <span class="nav-text"> 网络层 </span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#网络层的设计问题"><span class="nav-number">1.1.</span> <span class="nav-text"> 网络层的设计问题 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#网络层的目标"><span class="nav-number">1.1.1.</span> <span class="nav-text"> 网络层的目标 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#是否面向连接"><span class="nav-number">1.1.2.</span> <span class="nav-text"> 是否面向连接 </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#路由算法"><span class="nav-number">1.2.</span> <span class="nav-text"> 路由算法 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#泛洪算法"><span class="nav-number">1.2.1.</span> <span class="nav-text"> 泛洪算法 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#距离矢量路由"><span class="nav-number">1.2.2.</span> <span class="nav-text"> 距离矢量路由 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#链路状态路由 -is-is-ospf-etc."><span class="nav-number">1.2.3.</span> <span class="nav-text"> 链路状态路由 (IS-IS, OSPF, etc.)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#广播路由"><span class="nav-number">1.2.4.</span> <span class="nav-text"> 广播路由 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组播路由"><span class="nav-number">1.2.5.</span> <span class="nav-text"> 组播路由 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选播路由"><span class="nav-number">1.2.6.</span> <span class="nav-text"> 选播路由 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#移动主机路由"><span class="nav-number">1.2.7.</span> <span class="nav-text"> 移动主机路由 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自组织网络路由"><span class="nav-number">1.2.8.</span> <span class="nav-text"> 自组织网络路由 </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拥塞控制算法"><span class="nav-number">1.3.</span> <span class="nav-text"> 拥塞控制算法 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准入控制"><span class="nav-number">1.3.1.</span> <span class="nav-text"> 准入控制 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流量调节"><span class="nav-number">1.3.2.</span> <span class="nav-text"> 流量调节 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#负载脱落"><span class="nav-number">1.3.3.</span> <span class="nav-text"> 负载脱落 </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务质量"><span class="nav-number">1.4.</span> <span class="nav-text"> 服务质量 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#综合服务"><span class="nav-number">1.4.1.</span> <span class="nav-text"> 综合服务 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#区分服务"><span class="nav-number">1.4.2.</span> <span class="nav-text"> 区分服务 </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络互联"><span class="nav-number">1.5.</span> <span class="nav-text"> 网络互联 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#隧道"><span class="nav-number">1.5.1.</span> <span class="nav-text"> 隧道 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#互联网路由"><span class="nav-number">1.5.2.</span> <span class="nav-text"> 互联网路由 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据包分段"><span class="nav-number">1.5.3.</span> <span class="nav-text"> 数据包分段 </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#internet- 的网络层"><span class="nav-number">1.6.</span> <span class="nav-text">Internet 的网络层 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原则 -rfc-1958"><span class="nav-number">1.6.1.</span> <span class="nav-text"> 原则 [RFC 1958]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ipv4-rfc-791"><span class="nav-number">1.6.2.</span> <span class="nav-text">IPv4 [RFC 791]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ipv6-rfc-2460"><span class="nav-number">1.6.3.</span> <span class="nav-text">IPv6 [RFC 2460]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#internet- 控制协议"><span class="nav-number">1.6.4.</span> <span class="nav-text">Internet 控制协议 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标签交换和 -mpls"><span class="nav-number">1.6.5.</span> <span class="nav-text"> 标签交换和 MPLS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ospf"><span class="nav-number">1.6.6.</span> <span class="nav-text">OSPF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bgp"><span class="nav-number">1.6.7.</span> <span class="nav-text">BGP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#internet- 组播"><span class="nav-number">1.6.8.</span> <span class="nav-text">Internet 组播 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#移动 -ip"><span class="nav-number">1.6.9.</span> <span class="nav-text"> 移动 IP</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#传输层"><span class="nav-number">2.</span> <span class="nav-text"> 传输层 </span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">2.1.</span> <span class="nav-text"> 概述 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#udp-rfc-768"><span class="nav-number">2.2.</span> <span class="nav-text">UDP [RFC 768]</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#客户机 --- 服务器 -rpc"><span class="nav-number">2.2.1.</span> <span class="nav-text"> 客户机 - 服务器 RPC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实时多媒体应用"><span class="nav-number">2.2.2.</span> <span class="nav-text"> 实时多媒体应用 </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tcp-rfc-793-rfc-4614"><span class="nav-number">2.3.</span> <span class="nav-text">TCP [RFC 793] [RFC 4614]</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tcp- 连接的建立和释放"><span class="nav-number">2.3.1.</span> <span class="nav-text">TCP 连接的建立和释放 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcp- 滑动窗口"><span class="nav-number">2.3.2.</span> <span class="nav-text">TCP 滑动窗口 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcp- 计时器管理"><span class="nav-number">2.3.3.</span> <span class="nav-text">TCP 计时器管理 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcp- 拥塞控制"><span class="nav-number">2.3.4.</span> <span class="nav-text">TCP 拥塞控制 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcp- 的问题"><span class="nav-number">2.3.5.</span> <span class="nav-text">TCP 的问题 </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能问题"><span class="nav-number">2.4.</span> <span class="nav-text"> 性能问题 </span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
