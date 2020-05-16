@@ -170,7 +170,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-05-16 10:15:42 / Modified: 10:34:50" itemprop="dateCreated datePublished" datetime="2020-05-16T10:15:42+08:00">2020-05-16</time>
+              <time title="Created: 2020-05-16 10:15:42 / Modified: 10:55:05" itemprop="dateCreated datePublished" datetime="2020-05-16T10:15:42+08:00">2020-05-16</time>
             </span>
 
           
@@ -184,9 +184,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <iframe src="//player.bilibili.com/player.html?aid=18220304&amp;bvid=BV1uW411q7wA&amp;cid=29746884&amp;page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true">
-</iframe>
-
+          <h1 id="这只是一个测试">这只是一个测试</h1>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/16/bilibili-test/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -301,10 +307,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-04-22 20:10:52 / Modified: 20:29:39" itemprop="dateCreated datePublished" datetime="2020-04-22T20:10:52+08:00">2020-04-22</time>
+              <time title="Created: 2020-04-22 20:10:52" itemprop="dateCreated datePublished" datetime="2020-04-22T20:10:52+08:00">2020-04-22</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-16 10:53:55" itemprop="dateModified" datetime="2020-05-16T10:53:55+08:00">2020-05-16</time>
+              </span>
 
           
 
@@ -318,71 +330,17 @@
 
       
           <ol type="1">
-<li> 安装 Mathematica</li>
-<li> 完成数学作业 </li>
+<li>安装 Mathematica</li>
+<li>完成数学作业</li>
 </ol>
-<h2 id="微积分篇"> 微积分篇 </h2>
-<ol type="1">
-<li> 求 <span class="math inline">\(z=x^y\)</span> 在 (1, 1) 处的三阶 Taylor 多项式 </li>
-</ol>
-<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Expand</span>[<span class="keyword">Normal</span>[<span class="keyword">Series</span>[x^y,&#123;x,<span class="number">1</span>,<span class="number">3</span>&#125;,&#123;y,<span class="number">1</span>,<span class="number">3</span>&#125;]]]</span><br></pre></td></tr></table></figure>
-<ol start="2" type="1">
-<li> 当 <span class="math inline">\(1\le x+y-z\le 2\)</span>, <span class="math inline">\(x+y+z=0\)</span> 时，求 <span class="math inline">\(u=x^2+y^2+z^2\)</span> 的最小值 </li>
-</ol>
-<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Minimize</span>[&#123;x^<span class="number">2</span>+y^<span class="number">2</span>+z^<span class="number">2</span>,<span class="number">1</span>&lt;=x+y-z&lt;=<span class="number">2</span>&amp;&amp;x+y+z==<span class="number">0</span>&#125;,&#123;x,y,z&#125;]</span><br></pre></td></tr></table></figure>
-<ol start="3" type="1">
-<li> 求积分 </li>
-</ol>
-<p><span class="math display">\[\int_0^\infty {\frac {\cos {x}}{y^2+x^2}}\mathrm {d} x
-\]</span></p>
-<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Integrate</span>[<span class="keyword">Cos</span>[x]/(y^<span class="number">2</span>+x^<span class="number">2</span>),&#123;x,<span class="number">0</span>,<span class="keyword">Infinity</span>&#125;]</span><br></pre></td></tr></table></figure>
-<ol start="4" type="1">
-<li> 求重积分 </li>
-</ol>
-<p><span class="math display">\[\iint_{D}{|\cos (x+y)|}\mathrm {d} x\mathrm {d} y, D=[0,\pi]^2
-\]</span></p>
-<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Integrate</span>[<span class="keyword">Abs</span>[<span class="keyword">Cos</span>[x+y]]*<span class="keyword">Boole</span>[<span class="number">0</span>&lt;=x&lt;=<span class="keyword">Pi</span>&amp;&amp;<span class="number">0</span>&lt;=y&lt;=<span class="keyword">Pi</span>],&#123;x,-<span class="keyword">Infinity</span>,<span class="keyword">Infinity</span>&#125;,&#123;y,-<span class="keyword">Infinity</span>,<span class="keyword">Infinity</span>&#125;]</span><br></pre></td></tr></table></figure>
-<ol start="5" type="1">
-<li> 求重积分 </li>
-</ol>
-<p><span class="math display">\[\iiint_{\Omega}{xyz}\mathrm {d} x\mathrm {d} yx\mathrm {d} z, \Omega=\{(x,y,z)|x^2+y^2+z^2\le 4,x^2+y^2+(z-2)^2\le 4, x\ge 0, y\ge 0\}
-\]</span></p>
-<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Integrate</span>[<span class="keyword">Boole</span>[x^<span class="number">2</span>+y^<span class="number">2</span>+z^<span class="number">2</span>&lt;=<span class="number">4</span>&amp;&amp;x^<span class="number">2</span>+y^<span class="number">2</span>+(z<span class="number">-2</span>)^<span class="number">2</span>&lt;=<span class="number">4</span>&amp;&amp;x&gt;=<span class="number">0</span>&amp;&amp;y&gt;=<span class="number">0</span>],&#123;x,-<span class="keyword">Infinity</span>,<span class="keyword">Infinity</span>&#125;,&#123;y,-<span class="keyword">Infinity</span>,<span class="keyword">Infinity</span>&#125;,&#123;z,-<span class="keyword">Infinity</span>,<span class="keyword">Infinity</span>&#125;]</span><br></pre></td></tr></table></figure>
-<ol start="6" type="1">
-<li> 求累次积分 </li>
-</ol>
-<p><span class="math display">\[\int_0^1 {\mathrm {d} x}\int_0^x {\mathrm {d} y}\int_0^y {\frac {\cos {z}}{(1-z)^2}\mathrm {d} z}
-\]</span></p>
-<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Integrate</span>[<span class="keyword">Cos</span>[z]/(<span class="number">1</span>-z)^<span class="number">2</span>*<span class="keyword">Boole</span>[<span class="number">0</span>&lt;=z&lt;=y&amp;&amp;<span class="number">0</span>&lt;=y&lt;=x&amp;&amp;<span class="number">0</span>&lt;=x&lt;=<span class="number">1</span>],&#123;x,-<span class="keyword">Infinity</span>,<span class="keyword">Infinity</span>&#125;,&#123;y,-<span class="keyword">Infinity</span>,<span class="keyword">Infinity</span>&#125;,&#123;z,-<span class="keyword">Infinity</span>,<span class="keyword">Infinity</span>&#125;]</span><br></pre></td></tr></table></figure>
-<h2 id="线性代数篇"> 线性代数篇 </h2>
-<p><span class="math display">\[\mathbf {A}=
-\begin {bmatrix}
-13 &amp; 16 &amp; 16\\
--5 &amp; -7 &amp; -6\\
--6 &amp; -8 &amp; -7
-\end {bmatrix}
-\]</span></p>
-<ol type="1">
-<li>A 的特征多项式 </li>
-</ol>
-<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A=&#123;&#123;<span class="number">13</span>,<span class="number">16</span>,<span class="number">16</span>&#125;,&#123;<span class="number">-5</span>,<span class="number">-7</span>,<span class="number">-6</span>&#125;,&#123;<span class="number">-6</span>,<span class="number">-8</span>,<span class="number">-7</span>&#125;&#125;;</span><br><span class="line"><span class="keyword">CharacteristicPolynomial</span>[A,x]</span><br></pre></td></tr></table></figure>
-<ol start="2" type="1">
-<li>A 的特征值 </li>
-</ol>
-<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Eigenvalues</span>[A]</span><br></pre></td></tr></table></figure>
-<ol start="3" type="1">
-<li>A 的特征向量 </li>
-</ol>
-<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Eigenvectors</span>[A]</span><br></pre></td></tr></table></figure>
-<ol start="4" type="1">
-<li>A 的行列式 </li>
-</ol>
-<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Det</span>[A]</span><br></pre></td></tr></table></figure>
-<ol start="5" type="1">
-<li>A 的 Jordan 标准型 </li>
-</ol>
-<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">MatrixForm</span>/@<span class="keyword">JordanDecomposition</span>[A]</span><br></pre></td></tr></table></figure>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/22/%E6%95%B0%E5%AD%A6%E4%BD%9C%E4%B8%9A%E5%A6%82%E4%BD%95%E5%81%9A/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -432,7 +390,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-24 22:37:36" itemprop="dateModified" datetime="2020-04-24T22:37:36+08:00">2020-04-24</time>
+                <time title="Modified: 2020-05-16 10:55:35" itemprop="dateModified" datetime="2020-05-16T10:55:35+08:00">2020-05-16</time>
               </span>
 
           
@@ -447,70 +405,17 @@
 
       
           <h2 id="introduction">Introduction</h2>
-<p> 因为路由器在转发 IP 数据包时，并没有用到 IP 源地址，所以源地址可以由发送主机任意选择，造成欺骗。</p>
+<p>因为路由器在转发 IP 数据包时，并没有用到 IP 源地址，所以源地址可以由发送主机任意选择，造成欺骗。</p>
 <p>SAVI 的目标是在小的粒度 (fine granularity) 下，对个人 IP 地址进行过滤。</p>
-<p> 为了适应各种网络的需求，SAVI 采取了可扩展的设计。</p>
-<h2 id="model">Model</h2>
-<p>SAVI 不应当依赖主机的功能，所以是 purely network based。为了强制主机使用合法 IP 地址，SAVI 使用以下三步骤模型：</p>
-<ol type="1">
-<li>Identify which IP source addresses are legitimate for a host, based on monitoring packets exchanged by the host.</li>
-<li>Bind a legitimate IP address to a link-layer property of the host's network attachment. This property, called a"binding anchor", must be verifiable in every packet that the host sends and harder to spoof than the host's IP source address itself.</li>
-<li>Enforce that the IP source addresses in packets match the binding anchors to which they were bound.</li>
-</ol>
-<p> 关于 SAVI 的安置地点：在主机的默认路由器处（无法监控网络内部的数据包）或在主机与默认路由器之间的交换机处。很显然，SAVI 设置得离主机越近，效果越好。</p>
-<p>SAVI 需要考虑以下各种情况：当网络中存在传统（不支持 SAVI）的设备、主机在不同接入点之间切换、网络分裂（Network Partition）等。</p>
-<h2 id="deployment-options">Deployment Options</h2>
-<p>SAVI 模型的部署需要考虑以下两个方面：</p>
-<ul>
-<li><p> 对合法 IP 的识别依赖于 IP 地址的分配方法 </p>
-<ul>
-<li>The SAVI method hence comes in multiple variants, e.g., for links with DHCP [RFC2131] [RFC3315], Stateless Address Autoconfiguration (SLAAC) [RFC4862] with or without Secure Neighbor Discovery (SEND) [RFC3971], Internet Key Exchange Protocol Version 2 (IKEv2) [RFC5996] [RFC5739] [RFC5026], and combinations thereof.</li>
-</ul></li>
-<li><p>Binding anchors 依赖于链路层技术 </p>
-<ul>
-<li><p>The IEEE extended unique identifier, EUI-48 or EUI-64, of a host's interface.</p></li>
-<li><p>The port on an Ethernet switch to which a host attaches.</p></li>
-<li><p>The security association between a host and the base station on wireless links.</p></li>
-<li><p>The combination of a host interface's link-layer address and a customer relationship in cable modem networks.</p></li>
-<li><p>An ATM virtual channel, a PPP session identifier, or a Layer 2 Tunneling Protocol (L2TP) session identifier in a DSL network.</p></li>
-<li><p>A tunnel that connects to a single host, such as an IP-in-IP tunnel, a Generic Routing Encapsulation (GRE) tunnel, or an MPLS label-switched path.</p></li>
-</ul></li>
-</ul>
-<h2 id="scalability-optimizations">Scalability Optimizations</h2>
-<p> 因为倾向于将 SAVI 配置在距离主机较近的位置，对于大型的网络，必然会出现许多 SAVI 同时存在的情况。如果一个 SAVI 为连接上的所有 IP 地址创建 binding，就会引起冗余，消耗内存，增加成本。因此每个 SAVI 只对直接连接它，或者通过未部署 SAVI 的交换机连接它的主机负责。所有部署 SAVI 的交换机形成一个 "protection perimeter"。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">                                        ..............</span><br><span class="line">              protection perimeter --&gt;  : +--------+ :</span><br><span class="line"> +---+  +---+                           : |  SAVI  | :</span><br><span class="line"> | A |  | B |  &lt;-- hosts                : | switch | :</span><br><span class="line"> +---+  +---+                           : +--------+ :</span><br><span class="line">...|......|.............................:        |   :</span><br><span class="line">: +--------+          +--------+          +--------+ :</span><br><span class="line">: |  SAVI  |----------| legacy |          |  SAVI  | :</span><br><span class="line">: | switch |          | switch |----------| switch | :</span><br><span class="line">: +--------+          +--------+          +--------+ :</span><br><span class="line">:   |        ...............................|........:</span><br><span class="line">: +--------+ :                            +--------+</span><br><span class="line">: |  SAVI  | :                            | legacy |</span><br><span class="line">: | switch | :                            | switch |</span><br><span class="line">: +--------+ :                            +--------+</span><br><span class="line">:............:                             |      |</span><br><span class="line">                                         +---+  +---+</span><br><span class="line">                              hosts --&gt;  | C |  | D |</span><br><span class="line">                                         +---+  +---+</span><br></pre></td></tr></table></figure>
-<p> 所有经过 protection perimeter 的边界的数据包都会被 SAVI 检查源地址，仅当数据包始终处于内部或外部时不执行检查。</p>
-<h2 id="reliability-optimizations">Reliability Optimizations</h2>
-<p> 因为合法 IP 通过 binding 的形式储存在 SAVI 设备中，那么以下情况会导致假阳性：</p>
-<ul>
-<li> 合法 IP 配置包（本应当触发 SAVI 形成一个 binding）在到达 SAVI 设备之前丢失 </li>
-<li> 由于重启等原因，一个 SAVI 设备丢失了一个 binding</li>
-<li> 网络拓扑发生改变，主机连接到其他的 SAVI 上 </li>
-</ul>
-<p> 为了解决丢失 binding 造成的问题，SAVI 提供了相应的机制 (Reactive Binding Creation)：当一个 SAVI 设备发现很多来自同一个 IP 的数据包被丢弃，SAVI 检查该 IP 地址在该链路上是否唯一，若唯一，则 SAVI 为该 IP 地址创建一个 binding；否则继续丢弃来自该 IP 地址的数据包。</p>
-<h2 id="scenario-with-multiple-assignment-methods">Scenario with Multiple Assignment Methods</h2>
-<p> 由于多种 IP 分配方法可能被用于同一个网络，SAVI 设备需要同时采用多种 binding 的发现方法。如果不同的 IP 分配方法分配的是不同的地址前缀，那么这个问题不存在；复杂的情况在于同一个地址前缀存在不同的 IP 分配方案 (mix scenario) 。</p>
-<p> 不同地址分配方案 (DHCP [RFC 2131], DHCPv6 [RFC 3315], SLAAC [RFC 4862], and SEND [RFC 3971]) 的优先级是解决此问题的基础。然而，在一些情况下，默认的优先级顺序并不合适。所以对于 mix scenario ，SAVI 应当支持可配置的优先级。</p>
-<h2 id="prefix-configuration">Prefix Configuration</h2>
-<p> 在建立 host-level binding 之前，需要在 SAVI 设备上设置正确的前缀，利用这些前缀作为白名单来过滤违规源地址。有以下几种机制：</p>
-<ul>
-<li><p>Manual Prefix Configuration: The allowed prefix scope of IPv4 addresses, IPv6 static addresses, IPv6 addresses assigned by Stateless Address Autoconfiguration (SLAAC), and IPv6 addresses assigned by DHCPv6 can be set manually at the SAVI device. FE80::/64 is always a feasible prefix in IPv6.</p></li>
-<li><p>Prefix Configuration by Router Advertisement (RA) Snooping: The allowed prefix scope of IPv6 static addresses and IPv6 addresses assigned by SLAAC can be set at the SAVI device through snooping an RA message at the SAVI device.</p></li>
-<li><p>Prefix Configuration by DHCP Prefix Delegation (DHCP-PD) Snooping: The allowed prefix scope of IPv6 static addresses, IPv6 addresses assigned by SLAAC, and IPv6 addresses assigned by DHCPv6 can be set through snooping a DHCP-PD message at the SAVI device.</p></li>
-</ul>
-<p> 建议：</p>
-<ul>
-<li><p> 如果在某方案中，前缀被设置为空，则该地址分配方案不被允许在当前网络上使用。</p></li>
-<li><p> 不需要将这些前缀范围展示出来，但是这些限制应当在 binding 建立之初被用作检查。</p></li>
-<li><p> 当 SAVI 未被完全部署时，建议使用手动设置。</p></li>
-</ul>
-<h2 id="security-considerations">Security Considerations</h2>
-<ul>
-<li><p> 因为并不是所有情况下都会使用密码学技术，安全性不能得到完全的保证。所以如果有很强的安全需求，应当使用基于密码学认证的技术。</p></li>
-<li>SAVI 通常部署得距离主机较近，这使得 SAVI 设备本身容易受到攻击。因此载有 SAVI 功能的设备不应被物理暴露 </li>
-<li><p> 不要将 SAVI 分布式地部署在行政边界两侧（因为另一侧的 SAVI 并不能得到信任）</p></li>
-</ul>
-
+<p>为了适应各种网络的需求，SAVI 采取了可扩展的设计。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/21/Learn-SAVI-Framework-RFC-7039/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -560,7 +465,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-28 18:27:03" itemprop="dateModified" datetime="2020-04-28T18:27:03+08:00">2020-04-28</time>
+                <time title="Modified: 2020-05-16 10:56:05" itemprop="dateModified" datetime="2020-05-16T10:56:05+08:00">2020-05-16</time>
               </span>
 
           
@@ -575,83 +480,16 @@
 
       
           <blockquote>
-<p><a href="https://baike.baidu.com/item/%%20E6%%20A2%85%%20E7%89%%20B9%%20E5%8D%%20A1%%20E5%%20A4%%20AB%%20E5%%20AE%9A%%20E5%%20BE%8B/559840?fr=aladdin" target="_blank" rel="noopener"> 梅特卡夫定律 </a></p>
+<p><a href="https://baike.baidu.com/item/%%20E6%%20A2%85%%20E7%89%%20B9%%20E5%8D%%20A1%%20E5%%20A4%%20AB%%20E5%%20AE%9A%%20E5%%20BE%8B/559840?fr=aladdin" target="_blank" rel="noopener">梅特卡夫定律</a></p>
 </blockquote>
-<h2 id="一可扩展是互联网的使命"> 一、可扩展是互联网的使命 </h2>
-<ul>
-<li><p> 国际互联网协会 (Internet Society, ISOC)</p>
-<blockquote>
-<p>Unlike the telephone network, which for years in most countries was run by a single company, the global Internet consists of tens of thousands of interconnected networks run by service providers, individual companies, universities, governments, and others.</p>
-</blockquote>
-<blockquote>
-<p>The Internet is for everyone.</p>
-</blockquote>
-<blockquote>
-<p>open, globally-connected, secure, and trustworthy.</p>
-</blockquote></li>
-<li><p>“可扩展互联网” 的实现手段： “开放” + “互联”</p></li>
-<li><p> 下一代互联网建立在 IPv6 的极大地址空间上 </p></li>
-<li><p>“国际互联” 的基本设计原则（可扩展性）</p>
-<ul>
-<li><p> 分布式运行：互联网不统一管理 </p></li>
-<li> 不改变网络的内部通信机制 </li>
-<li><p> 网络之间的互联互通服务尽量简单：无连接分组交换、尽力而为 </p></li>
-</ul></li>
-<li><p>IP 协议：** 用于 “国际互联” 的协议 **（无连接 + 分组交换 + “尽力而为” 的转发 + 基于 IP 地址的寻址），充分” 放权”</p>
-<ul>
-<li> 互联网对内容提供者不做任何限制 </li>
-<li> 互联网的开放模式冲击电信网运营商 </li>
-<li> 互联网不为任何特殊应用服务 </li>
-<li> 互联网并非对应用的需求 “视而不见”</li>
-<li> 互联网对每个网络的底层通信介质不作限制 </li>
-<li> 互联网对每个网络地层通信的 “实际 “转发协议不限制 </li>
-<li> 互联网对用户开放，“尽力而为” 是在有限资源的情况下的社会主义 </li>
-<li> 互联网对流量开放，流量由发动者驱动：开放 vs DoS</li>
-<li> 互联网对标准和标准的制定者开放，IETF 是国际民间组织
-<ul>
-<li> 芯片设计领域：指令集标准是要付费使用的 </li>
-<li> 电信网：给持有专利的公司付费 </li>
-</ul></li>
-</ul></li>
-<li><p> 针对 IP 的非议：</p>
-<ul>
-<li>IP 协议没有服务质量保障 </li>
-<li>IP 协议没有移动性支持 </li>
-<li>IP 协议缺乏安全性考虑，没有支持网络的 “内生安全”</li>
-</ul></li>
-<li> 有没有比 IP 协议更好的互联方案？—— 谁也不知道 </li>
-<li><p> 互联网 ！= 计算机网络 —— 一系列误导性名词：工业互联网、物联网……</p></li>
-</ul>
-<h2 id="二 ipv6- 协议增加了互联网的可扩展性"> 二、IPv6 协议增加了互联网的可扩展性 </h2>
-<ul>
-<li> 从根本上解决困扰互联网 “开放” 和 “互联” 的地址空间问题 </li>
-<li><p> 当前许多行业网络发展的误区：</p>
-<ul>
-<li><p> 以业务需求为纲 </p></li>
-<li> 只关心局部网络需求，没有全局视野，形成 “网络孤岛”</li>
-</ul></li>
-<li><p> 地址分配的可聚类性更强 </p></li>
-</ul>
-<h2 id="三其他互联网方案"> 三、其他互联网方案 </h2>
-<ul>
-<li>GENI 计划（美国）</li>
-<li> 软件定义网络 SDN
-<ul>
-<li> 核心思想：路由器的控制平面与数据平面分离，把控制平面集中到一个中央控制器上 </li>
-<li> 可扩展性差，因为互联网是分布式的 </li>
-</ul></li>
-<li> 内容中心网络 ICN / 命名数据网络 NDN
-<ul>
-<li> 技术思路：用 “内容名字” 取代 “IP 地址” 成为路由寻址的核心（Underlay 实现）</li>
-<li> 本质上取代了 DNS 的功能，把内容寻址实现到路由器上 </li>
-</ul></li>
-<li> 服务质量驱动的未来互联网设计
-<ul>
-<li> 强调服务质量控制（与互联网的可扩展性本质相悖）</li>
-<li> 对 new IP 的批判 </li>
-</ul></li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/20/Extensible-NGI/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

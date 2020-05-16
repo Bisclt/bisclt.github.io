@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Introduction  因为路由器在转发 IP 数据包时，并没有用到 IP 源地址，所以源地址可以由发送主机任意选择，造成欺骗。 SAVI 的目标是在小的粒度 (fine granularity) 下，对个人 IP 地址进行过滤。  为了适应各种网络的需求，SAVI 采取了可扩展的设计。 Model SAVI 不应当依赖主机的功能，所以是 purely network based。为了强制主机">
+  <meta name="description" content="Introduction 因为路由器在转发 IP 数据包时，并没有用到 IP 源地址，所以源地址可以由发送主机任意选择，造成欺骗。 SAVI 的目标是在小的粒度 (fine granularity) 下，对个人 IP 地址进行过滤。 为了适应各种网络的需求，SAVI 采取了可扩展的设计。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Learn SAVI Framework[RFC 7039]">
 <meta property="og:url" content="http://yoursite.com/2020/04/21/Learn-SAVI-Framework-RFC-7039/index.html">
 <meta property="og:site_name" content="CLT">
-<meta property="og:description" content="Introduction  因为路由器在转发 IP 数据包时，并没有用到 IP 源地址，所以源地址可以由发送主机任意选择，造成欺骗。 SAVI 的目标是在小的粒度 (fine granularity) 下，对个人 IP 地址进行过滤。  为了适应各种网络的需求，SAVI 采取了可扩展的设计。 Model SAVI 不应当依赖主机的功能，所以是 purely network based。为了强制主机">
+<meta property="og:description" content="Introduction 因为路由器在转发 IP 数据包时，并没有用到 IP 源地址，所以源地址可以由发送主机任意选择，造成欺骗。 SAVI 的目标是在小的粒度 (fine granularity) 下，对个人 IP 地址进行过滤。 为了适应各种网络的需求，SAVI 采取了可扩展的设计。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-04-21T09:07:13.000Z">
-<meta property="article:modified_time" content="2020-04-24T14:37:36.345Z">
+<meta property="article:modified_time" content="2020-05-16T02:55:35.554Z">
 <meta property="article:author" content="CLT">
 <meta property="article:tag" content="study notes">
 <meta name="twitter:card" content="summary">
@@ -181,7 +181,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-24 22:37:36" itemprop="dateModified" datetime="2020-04-24T22:37:36+08:00">2020-04-24</time>
+                <time title="Modified: 2020-05-16 10:55:35" itemprop="dateModified" datetime="2020-05-16T10:55:35+08:00">2020-05-16</time>
               </span>
 
           
@@ -206,6 +206,7 @@
 <p> 因为路由器在转发 IP 数据包时，并没有用到 IP 源地址，所以源地址可以由发送主机任意选择，造成欺骗。</p>
 <p>SAVI 的目标是在小的粒度 (fine granularity) 下，对个人 IP 地址进行过滤。</p>
 <p> 为了适应各种网络的需求，SAVI 采取了可扩展的设计。</p>
+<a id="more"></a>
 <h2 id="model">Model</h2>
 <p>SAVI 不应当依赖主机的功能，所以是 purely network based。为了强制主机使用合法 IP 地址，SAVI 使用以下三步骤模型：</p>
 <ol type="1">
