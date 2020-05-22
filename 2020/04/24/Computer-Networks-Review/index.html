@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="序言 本文基于《计算机网络（第 5 版）》（清华大学出版社），是本人在阅读过程中所作的不全面且不一定准确的总结。仅供参考！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Computer Networks Review">
+<meta property="og:url" content="http://yoursite.com/2020/04/24/Computer-Networks-Review/index.html">
+<meta property="og:site_name" content="CLT">
+<meta property="og:description" content="序言 本文基于《计算机网络（第 5 版）》（清华大学出版社），是本人在阅读过程中所作的不全面且不一定准确的总结。仅供参考！">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2020/04/24/Computer-Networks-Review/TCP%20handshakes.png">
+<meta property="article:published_time" content="2020-04-24T13:25:17.000Z">
+<meta property="article:modified_time" content="2020-05-16T02:51:49.211Z">
+<meta property="article:author" content="CLT">
+<meta property="article:tag" content="study notes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/04/24/Computer-Networks-Review/TCP%20handshakes.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/04/24/Computer-Networks-Review/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Computer Networks Review | CLT</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">CLT</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/24/Computer-Networks-Review/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="CLT">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CLT">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Computer Networks Review
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-04-24 21:25:17" itemprop="dateCreated datePublished" datetime="2020-04-24T21:25:17+08:00">2020-04-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-16 10:51:49" itemprop="dateModified" datetime="2020-05-16T10:51:49+08:00">2020-05-16</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="序言"> 序言 </h1>
+<p> 本文基于《计算机网络（第 5 版）》（清华大学出版社），是本人在阅读过程中所作的不全面且不一定准确的总结。仅供参考！</p>
+<a id="more"></a>
+<h1 id="数据链路层"> 数据链路层 </h1>
+<h2 id="设计问题"> 设计问题 </h2>
+<p> 数据链路层需要完成以下功能：</p>
+<ol type="1">
+<li> 向网络层提供一个定义良好的服务接口。</li>
+<li> 处理传输错误。</li>
+<li> 调节数据流，确保慢速接收方不被快速发送方淹没。</li>
+</ol>
+<h3 id="提供给网络层的服务"> 提供给网络层的服务 </h3>
+<ol type="1">
+<li> 无确认的无连接服务（以太网）。</li>
+<li> 有确认的无连接服务（WiFi）。</li>
+<li> 有确认的有连接服务（用于长距离且不可靠的链路，如卫星信道）。</li>
+</ol>
+<h3 id="成帧"> 成帧 </h3>
+<ol type="1">
+<li> 字节计数法：利用头部中的字段来标识该帧字节数。（鲁棒性差，很少被使用）</li>
+<li> 字节填充的标志字节法：用特殊的字节（标志字节）作为开始和结束，采用转义字节（ESC）处理帧内容中的标志字节。（被 PPP 使用）</li>
+<li> 比特填充的标志比特法：帧可以包含任意大小的单元，每个帧的开始和结束由 0x7E 标记。（被 USB 采用）</li>
+<li> 物理层编码违禁法：利用编码冗余。</li>
+</ol>
+<h2 id="检错和纠错"> 检错和纠错 </h2>
+<h3 id="纠错码"> 纠错码 </h3>
+<ol type="1">
+<li> 海明码：线性块码。</li>
+<li> 二进制卷积码：不属于块码。编码器处理输入位序列，生成一个输出位序列。</li>
+<li> 里德所罗门码：线性块码。（还用于 QR Code 的编码）</li>
+<li> 低密度奇偶校验码（LDPC）：线性块码。适用于大块数据，纠错能力强，被万兆以太网和最新的 802.11 等标准采用。</li>
+</ol>
+<h3 id="检错码"> 检错码 </h3>
+<p> 对于高品质线路，对于偶尔出现的错误采用检错和重传，效率更高。</p>
+<ol type="1">
+<li> 奇偶 </li>
+<li> 校验和 </li>
+<li> 循环冗余校验（CRC）</li>
+</ol>
+<h2 id="理论数据链路协议"> 理论数据链路协议 </h2>
+<p> 书中定义了 5 个数据结构：boolean, seq_nr, packet, frame_kind, frame。</p>
+<p> 单向传输的协议 </p>
+<ol type="1">
+<li> 乌托邦式：不考虑出错、缓存无穷大。</li>
+<li> 无错信道上单工停 - 等协议：发送方速度太快会导致接收方来不及接收，所以当接收方返回的许可帧到达发送方后，发送方才发送下一帧（ARQ, 自动重复请求）。</li>
+<li> 有错信道上单工停 - 等协议：考虑了帧的损坏，在发送方处增加计时器，若一定时间内未收到接收方的确认，就重新发送。又考虑到接收方发送的确认帧丢失，导致发送方重复发送某一帧的情况，所以发送方要在发送帧的头部放上序号。</li>
+</ol>
+<p> 双向传输的协议：一个改进是使用双工线路，进一步可以使用 ack 进行捎带确认。以下协议都属于滑动窗口协议，其本质为任何时刻发送方总是维持一组序号（发送窗口），对应于可以被发送或已被发送但未被确认的帧；接收方维持一个接收窗口，对应一组允许它接收的帧。一旦接收到的帧位于窗口下边界，接收方将它传给网络层，并将整个窗口向前移动一格。</p>
+<ol type="1">
+<li>1 位滑动窗口协议：使用停 - 等式办法，当双方同时发送初始数据包时可能导致每一帧被重复发送多次。</li>
+<li> 回退 N 协议：对应于接收窗口大小为 1 的情形，接收方只接受 “下一帧”。信道错误率高时会浪费大量带宽。</li>
+<li> 选择重传协议：用于线路质量不那么好时，允许接收方接受并缓存丢失帧后面的帧。与否定确认（NAK）结合，提早使发送方意识到错误，触发丢失帧的重传。</li>
+</ol>
+<h2 id="实际协议"> 实际协议 </h2>
+<p> 广域网中的连接大多是点到点链路。点到点协议（PPP）运用于在这种链路上发送数据包。SONET 和 ADSL 链路以不同方式采用了 PPP。（P189~P194）</p>
+<h1 id="介质访问控制子层"> 介质访问控制子层 </h1>
+<p> 网络链路分为点到点连接和使用广播信道。本章讨论后者，关键的问题是当多方竞争时信道的使用权如何分配。分配方法所属的协议属于数据链路层的子层，即介质访问控制 (MAC) 子层。因为无线本质上是广播信道，所以 MAC 和 LAN 紧密相关。</p>
+<h2 id="静态分配 -or- 动态分配"> 静态分配 or 动态分配 </h2>
+<p> 传统的做法是把信道容量拆开，如多路复用技术。这样做第一可能某时刻只有少部分用户需要通信，浪费剩余带宽，第二无法接入新用户。利用数学计算体现为：假设信道容量 <span class="math inline">\(C\ bps\)</span>，在该信道上发送每帧平均延时 <span class="math inline">\(T\)</span>，帧的随机到达率为 <span class="math inline">\(\lambda\)</span> 帧每秒，每帧平均 <span class="math inline">\(\frac {1}{\mu}\)</span> 位，则有 <span class="math display">\[T=\frac {1}{\mu C-\lambda}
+\]</span> 若把单信道分为 <span class="math inline">\(N\)</span> 个独立子信道，则 </p>
+<p><span class="math display">\[T_N=\frac {1}{\mu (C/N)-(\lambda/N)}=NT
+\]</span> 平均排队时间增大为 <span class="math inline">\(N\)</span> 倍。</p>
+<p> 因此为了应对突发性的流量，需要动态分配信道。以下为所有动态分配方案所做的假设：</p>
+<ol type="1">
+<li> 流量独立 </li>
+<li> 单信道 (核心)</li>
+<li> 冲突可观察 </li>
+<li> 时间连续或分槽 (时间槽可以改善性能)</li>
+<li> 载波侦听或不听 (无线网络无法侦听)</li>
+</ol>
+<h2 id="多路访问协议"> 多路访问协议 </h2>
+<h3 id="aloha">ALOHA</h3>
+<p> 产生于上世纪七十年代的夏威夷。每当用户需要发送数据时就发送，中央计算机收到帧后，广播给所有站，以此确定是否发生了冲突。若冲突，则发送方随机等待一段时间，再次发送该帧。计算可知，未分槽的 ALOHA 最大信道利用率为 <span class="math inline">\(18\%\)</span>，分槽 ALOHA 则为 <span class="math inline">\(37\%\)</span>。</p>
+<h3 id="载波侦听多路访问协议"> 载波侦听多路访问协议 </h3>
+<p>1 - 坚持 CSMA 是最简单的 CSMA 方案。当站要发送数据时，它侦听信道，若空闲则发送数据，否则等待直到信道空闲后再次尝试。 (问题在于可能有多个站同时等待，造成信道甫一空闲，多站同时发送)</p>
+<p> 非坚持 CSMA 则若发现信道非空，会随机等待一段时间，再次侦听。可以提供更好的信道利用率，但带来了更大的延迟。</p>
+<p>p - 坚持 CSMA 为若发现信道空闲，有 <span class="math inline">\(p\)</span> 的概率发送数据，而以 <span class="math inline">\(1-p\)</span> 的概率推迟到下一个时间槽；若发生冲突，则随机等待一段时间。</p>
+<p>CSMA/CD 对 CSMA 作出改进：站在检测到冲突之后，立刻停止传输帧。它是经典以太局域网的基础。</p>
+<h3 id="无冲突协议"> 无冲突协议 </h3>
+<p> 以根本不可能产生冲突的方式解决了信道竞争问题，可以适应实时流量 (但没有被用于主流系统中) 。包括位图协议、令牌环协议和二进制倒计数协议。</p>
+<h3 id="有限竞争协议"> 有限竞争协议 </h3>
+<p> 负载较轻时，竞争方法更理想 (具有较短延迟) ；高负载时无冲突协议效率更高。将两者优势结合，得到有限竞争协议 (limited-contention protocal) ，例如自适应树遍历协议。</p>
+<h3 id="无线局域网协议"> 无线局域网协议 </h3>
+<p> 无线通信系统通常不能检测出正在发生的冲突，且一个站无法接受来自所有其他站的帧，不同于有线局域网。存在隐藏终端问题 (无法检测到潜在的竞争者) 和暴露终端问题 (误认为信道已被占用) 。处理这些问题的早期协议为冲突避免多路访问 (MACA) ，发送方先向接收方发送 RTS，然后接收方应答 CTS，以便附近的站知道信道被占用。当同时有两个 RTS 发送给接收方时，这些帧因冲突而丢失，发送方会等待一段随机的时间再重新尝试。</p>
+<h2 id="以太网"> 以太网 </h2>
+<h3 id="经典以太网"> 经典以太网 </h3>
+<p> 经典以太网是以太网的原始形式，速度为 3～10Mbps。</p>
+<p> 物理层：使用电缆和中继器，信息的发送采用曼彻斯特编码。</p>
+<p>MAC 子层：帧的前 8 个字节为前导码 (其中最后一个字节称为 802.3 的帧起始定界符 (SOF) 。随后是目的地址和源地址字段，均为 6 字节。源地址具有全球唯一性，前 3 个字节作为该站所在的组织唯一标识符 (OUI) ，后 3 个字节由制造商分配。随后是类型或长度字段、数据字段 (最多 1500 字节) 和填充字段 (使帧长达到 64 字节，保证所有帧至少需要 <span class="math inline">\(2\tau\)</span> 时间才能完成发送 ) ，最后是 32 位 CRC。</p>
+<p> 经典以太网使用 1 - 坚持 CSMA/CD 算法，在发生冲突时采用二进制指数后退 (binary exponential backoff) 。若未发生碰撞，发送方就认为该帧传递成功 (因为信道出错率很低) 。</p>
+<h3 id="交换式以太网"> 交换式以太网 </h3>
+<p> 交换式以太网的核心是交换机，通过 4～48 个端口连接网络上的所有机器。它只把帧输出到帧想去的端口。在交换机中，每个端口有自己独立的冲突域 (在集线器中，所有站位于同一个冲突域中) ，且通常电缆是全双工的，因此冲突不可能发生，故不需要 CSMA/CD。</p>
+<h2 id="无线局域网"> 无线局域网 </h2>
+<p> 无线局域网的主要标准是 802.11。802.11 网络有两种使用模式：有架构网络 (每个客户端与一个 AP 关联) 和自组织网络。所有 802 协议的数据链路层分为多个子层；802.11 中，下层 MAC 子层决定如何分配信道，上层逻辑链路控制 (LLC) 子层目的为隐藏 802 协议之间的差异，使之在网络层看来无差别。</p>
+<h3 id="物理层">802.11 物理层 </h3>
+<p> 所有 802.11 技术都使用短程无线电传输信号，通常在 2.4GHz 或 5GHz 频段 (属于 ISM，无需许可证) 。了解 802.11a/b/g 的演变历史。</p>
+<h3 id="mac- 子层协议">802.11 MAC 子层协议 </h3>
+<p> 无线电几乎总是半双工的，因此无法在传输的同时侦听噪声。为了避免冲突，802.11 采用 CSMA/CA，类似于以太网的 CSMA/CD，但发送方需以随机后退开始 (通过早期的后退来避免冲突) ，并通过接收方的确认来推断帧是否送达。</p>
+<p> 不同于有限情况下，所有站都可以听到对方。无线网络中无法判断是哪个站在发送信息。故 802.11 的信道侦听包括物理侦听 (检查介质，看是否存在有效信号) 和虚拟侦听 (通过跟踪 NAV，建立一个信道何时要用的记录) 。</p>
+<p> 几个机制：</p>
+<ul>
+<li> 可靠性：因为无线网络不可考，需要使用短帧。802.11 允许把帧拆分成更小的段 (fragment) 。</li>
+<li> 节省电源：对于移动无线设备来说很重要。</li>
+<li> 服务质量：802.11e 拓展了 CSMA/CA，当一帧发送之后，需要保持一段特定时间的空闲，然后任何站才可以发送帧。为不同类型的帧确定不同的时间间隔即可实现不同优先级服务。</li>
+</ul>
+<h3 id="帧结构">802.11 帧结构 </h3>
+<p>802.11 标准定义了三种不同类型的帧：数据帧、控制帧和管理帧。详见 <a href="https://blog.csdn.net/u012503786/article/details/78783874" target="_blank" rel="noopener"> 此 </a>。</p>
+<h3 id="服务"> 服务 </h3>
+<p>802.11 定义的服务包含以下几组：</p>
+<ul>
+<li> 关联 (association) ：当移动站进入某个 AP 的无线电覆盖范围时，它把自己连接到 AP 上。</li>
+<li> 重新关联 (reassociation) ：站利用这项服务来改变它的首选 AP，用于从一个 AP 切换到另外一个 AP 时。</li>
+<li> 认证 (authentication) ：推荐的认证模式称为 WiFi 保护接入 2 (WPA2) ，它基于 AES。之前使用的有限等效保密 (WEP) 可被破解。</li>
+<li> 分发 (distribution) ：决定如何路由帧，取决于帧对于 AP 来说是否是本地的。</li>
+<li> 数据传送 (data delivery) ：不保证 100% 可靠，因此上层必须处理检错和纠错。</li>
+<li>QoS 流量调度 (QoS traffic scheduling) ：给予语音和视频流量比尽力而为和背景流量更高待遇。</li>
+</ul>
+<h2 id="宽带无线"> 宽带无线 </h2>
+<p> 光纤入户的成本很高，因此想到宽带无线城域网，标准化为 802.16 (WiMAX) 。WiMAX 结合了 802.11 和 3G，基于 OFDM (对抗多径衰弱) 和 MIMO (实现高吞吐率) 技术，传输距离比 802.11 大 10 倍以上。然而 WiMAX 由于 <a href="https://zhihu.com/question/19687054?sort=created" target="_blank" rel="noopener"> 各种原因 </a> 获得失败，成为明日黄花，暂且不表。</p>
+<h2 id="数据链路层交换"> 数据链路层交换 </h2>
+<p> 采用网桥可以把多个局域网连接在一起，它们通过检查帧的数据链路层地址来转发帧，因此可以处理 IP 以外类型的数据包。不同的线缆可以接到一个网桥上，因此可以桥接不同楼宇之间的局域网。</p>
+<h3 id="学习网桥"> 学习网桥 </h3>
+<p> 当网桥被首次接入网络时，目的地 —— 出口表为空，对于每个法向未知目标地址的入境帧，网桥将它泛洪，直到网桥学会对应每个目标地址的端口。这种方法成为后向学习法 (backward learning) 。网桥中的表项只保留几分钟，因此无需人工干预，可以即插即用。为了提高速度，一旦接收到帧的目标地址，就可以在帧的剩余部分还在输入时就开始转发。称作直通式交换或虫孔路由。</p>
+<h3 id="生成树网桥"> 生成树网桥 </h3>
+<p> 为了提高可靠性，网桥之间可使用冗余链路，从而形成环路。因此需要一颗生成树被所有网桥承认，随后站之间的转发均通过该树进行。</p>
+<p> 首先，全体网桥选择一个 (具有最低标识符的) 网桥作为生成树的根，然后构造从根到每个网桥的最短路径树，随后网桥关闭不属于最短路径的端口。</p>
+<p> 在发明构造生成树的算法后，应当念一首诗：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">I think that I shall never see</span><br><span class="line">A graph more lovely than a tree.</span><br><span class="line">A tree whose crucial property</span><br><span class="line">Is loop-free connectivity.</span><br><span class="line">A tree which must be sure to span.</span><br><span class="line">So packets can reach every LAN.</span><br><span class="line">First the Root must be selected</span><br><span class="line">By ID it is elected.</span><br><span class="line">Least cost paths from Root are traced</span><br><span class="line">In the tree these paths are placed.</span><br><span class="line">A mesh is made by folks like me</span><br><span class="line">Then bridges find a spanning tree.</span><br></pre></td></tr></table></figure>
+<h3 id="虚拟局域网"> 虚拟局域网 </h3>
+<p> 背景：一个公司的不同部门的计算机全部被放在同一个 LAN 上，引发三个问题：安全性、负载和广播流量。因此需要把一个 LAN 拆分为若干 VLAN。VLAN 基于 VLAN 感知交换机，不同 VLAN 使用不同颜色来命名。</p>
+<p> 为了实现 VLAN，改变了以太网的帧头。在源地址和数据之间加上了一对 2 字节字段。第一个 2 字节为 VLAN 协议标识符 0x8100 (大于 1500，无法解释成长度，不会发送给传统网卡) ；第二个 2 字节的前 4 位与 VLAN 无关，后 12 位时 VLAN 标识符，指出帧属于哪种颜色的 VLAN。</p>
+<h1 id="网络层"> 网络层 </h1>
+<h2 id="网络层的设计问题"> 网络层的设计问题 </h2>
+<h3 id="网络层的目标"> 网络层的目标 </h3>
+<ol type="1">
+<li> 向上提供的服务应该独立于路由器技术 </li>
+<li> 向上层屏蔽路由器拓扑信息 </li>
+<li> 网络地址具有统一编码方案 </li>
+</ol>
+<h3 id="是否面向连接"> 是否面向连接 </h3>
+<ul>
+<li> 虚电路网络：建立阶段花费成本，鲁棒性差，但服务质量和拥塞控制较易掌控 </li>
+<li> 数据报网络：鲁棒性强，允许路由器平衡网络流量 (所有包不需要走同一条路)</li>
+</ul>
+<h2 id="路由算法"> 路由算法 </h2>
+<p> 路由算法分为非自适应算法 (静态路由，用于路由选择十分清除的场合) 和自适应算法 (动态路由，路由决策随拓扑状态而改变) 。</p>
+<h3 id="泛洪算法"> 泛洪算法 </h3>
+<p> 鲁棒性很好，可以用于战争地区的军事网络，且总能找到最短延迟的路径。</p>
+<h3 id="距离矢量路由"> 距离矢量路由 </h3>
+<p> 每个路由器维护一张表，存储它到已知的每个目标的最佳路径和距离，表通过邻居交换信息被更新，最终所有路由器都获得到达任意目的地的最佳链路。然而收敛过程可能缓慢 (无穷计数) ，使用带有染毒逆向的水平分裂法等优化，实际工作效果不好，1979 年被 ARPANET 替换为链路状态路由。</p>
+<h3 id="链路状态路由 -is-is-ospf-etc."> 链路状态路由 (IS-IS, OSPF, etc.)</h3>
+<ol type="1">
+<li> 发现邻居：当路由器启动时，首先在每一条点到点线路上发送 HELLO 数据包，线路另一端的路由器以全局唯一的名字回应 </li>
+<li> 设置链路成本：将链路成本设置为与链路带宽与传输延迟相关 </li>
+<li> 构造链路状态包：包含发送方标识符、序号、年龄和到各个邻居的延迟 </li>
+<li> 分发链路状态包：使用泛洪法，其他路由器记录自己看到过的来自源路由器的最大序号 (为防止回绕，采用 32 位序号) ，丢弃老旧数据包；年龄字段每秒钟减一，减为零后丢弃该信息。 (不懂.jpg)</li>
+<li> 计算新路由：路由器因为已经拥有所有链路状态数据包，可以在本地运行 Dijkstra 算法。</li>
+</ol>
+<p> 随着网络规模增长，路由表爆炸，消耗路由器内存等资源，是以采用分层路由。对于一个包含 <span class="math inline">\(N\)</span> 个路由器的网络，最优层数为 <span class="math inline">\(\log N\)</span>，每个路由器所需路由器表项为 <span class="math inline">\(e \log N\)</span> 个。</p>
+<h3 id="广播路由"> 广播路由 </h3>
+<p> 存在多种广播技术：多目标路由 (每个包包含一组目标地址，路由器为每一条线路生成副本) 、泛洪、逆向路径转发 (优雅而简单) 。</p>
+<h3 id="组播路由"> 组播路由 </h3>
+<p> 组播路由方案建立在广播路由方案的基础上，数据包沿着生成树发送。为了减少浪费，需要修剪广播树，得到一颗有效的组播生成树。当采用链路状态路由时 (MOSPF) ，每个路由器针对组内每个发送者构造一颗生成树；采用距离矢量路由时 (DVMRP) ，使用逆向路径转发。在只有一个发送者的情况下，采用基于核心树 (core-based trees) 的技术减小路由器的工作量；该方法也因为大大节省储存、计算等开销被用于 Internet 的稀疏组播 (PIM) 。</p>
+<h3 id="选播路由"> 选播路由 </h3>
+<p> 数据包被传递给最近的一个组成员，用于客户只需要获得正确的信息而非与某个特定节点联系的情况。选播作为域名系统的一部分广泛应用于 Internet 上。</p>
+<h3 id="移动主机路由"> 移动主机路由 </h3>
+<p> 目标是使人们利用固定的家乡地址来发送数据包，因为随着移动主机数量便多，每次移动之后重新计算路由变得不可行；另一种方法是每当主机移动到新地址，它会获得一个新的网络地址 (如今流行这种做法) ，但其他主机无法向它发送数据包。</p>
+<p>IPv6 移动模型：移动主机在外地获得一个转交地址 (care of address) ，并把自己的位置信息告诉处于家乡位置的家乡代理 (home agent) 。发送者向移动主机发送数据包时，数据包到达家乡代理，家乡代理用一个新的头封装该数据包，转发给转交地址。移动主机获得数据包后，直接向发送者发应答数据包，但仍然使用家乡地址作为源地址。整个路由过程成为三角路由。数据包传送时可以使用加密协议。</p>
+<h3 id="自组织网络路由"> 自组织网络路由 </h3>
+<p> 当路由器本身也移动时 (如地震现场、战场上等) ，每个节点需要同时扮演路由器和主机的角色。因为所有节点都在移动，网络拓扑概念失效。由于此种网络很少使用，尚未确定最优协议。最流行的路由算法为 Ad hoc 按需距离矢量 (AODV) 路由算法。</p>
+<h2 id="拥塞控制算法"> 拥塞控制算法 </h2>
+<h3 id="流量感知路由"> 流量感知路由 </h3>
+<p> 如果路由方案采取固定链路权重，将无法适应负载的变化。早期 Internet 使用的流量感知路由把链路权重设置为链路带宽、传输延迟、测量负载或平均排队延迟的函数，然而可能引发路由振荡等问题。因此如今 Internet 路由协议不依赖于负载，而采用 <a href="https://www.cnblogs.com/sddai/p/5988195.html" target="_blank" rel="noopener"> 流量工程 (traffic engineering)</a>。</p>
+<h3 id="准入控制"> 准入控制 </h3>
+<p> 广泛应用于虚电路网络，采取漏桶 (leaky bucket) 或令牌桶 (token bucket) 的机制，可以同时约束平均速率和突发流量。准入控制可以与流量感知路由相结合，将新建的虚电路绕开拥塞的路由器。</p>
+<h3 id="流量调节"> 流量调节 </h3>
+<ul>
+<li> 感知 (路由器如何知道快要接近拥塞)
+<ul>
+<li> 输出线路的利用率 (未考虑突发流量)</li>
+<li> 在路由器内缓冲的排队数据包 (最有用)</li>
+<li> 因缓冲不足而丢失的数据包 (太迟了)</li>
+</ul></li>
+<li> 反馈 (如何把拥塞信息传递给发送方)
+<ul>
+<li> 抑制包 </li>
+<li> 显式拥塞通知 (ECN) ：在转发的数据包上打标记，使接收方在应答时附上拥塞信息 </li>
+<li> 逐跳后压 (让抑制包在每一条发挥作用)</li>
+</ul></li>
+</ul>
+<h3 id="负载脱落"> 负载脱落 </h3>
+<p> 路由器的杀手锏，葡萄酒和牛奶；随机早期检测 (RED) 当链路上的平均队列长度超过阈值时随机丢包，传输层收到丢包信息后便会放慢速度。</p>
+<h2 id="服务质量"> 服务质量 </h2>
+<p> 某些应用需要网络具有很强的性能保障，而非仅仅尽力而为。确保服务质量需要解决以下问题：</p>
+<ol type="1">
+<li> 应用程序需要网络的质量如何？</li>
+<li> 如何规范进入网络的流量？</li>
+<li> 为了保障性能如何在路由器上预留资源？</li>
+<li> 网络能否安全地接受更多流量？</li>
+</ol>
+<ul>
+<li> 应用需求：为了适应各种应用，网络可以支持不同类别的 QoS</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th> 应用 </th>
+<th> 带宽 </th>
+<th> 延迟 </th>
+<th> 抖动 </th>
+<th> 丢失 </th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td> 电子邮件 </td>
+<td> 低 </td>
+<td> 低 </td>
+<td> 低 </td>
+<td> 中等 </td>
+</tr>
+<tr class="even">
+<td> 浏览网页 </td>
+<td> 中等 </td>
+<td> 中等 </td>
+<td> 低 </td>
+<td> 中等 </td>
+</tr>
+<tr class="odd">
+<td> 视频电话 </td>
+<td> 高 </td>
+<td> 高 </td>
+<td> 高 </td>
+<td> 低 </td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p> 流量整形：指调节进入网络的数据流的平均速率和突发性所采用的技术，可使用漏桶和令牌桶。</p></li>
+<li> 包调度：FIFO/fair queuing/WFO</li>
+<li><p> 准入控制 </p></li>
+</ul>
+<h3 id="综合服务"> 综合服务 </h3>
+<p>IETF 在 1995 到 1997 年间设计了流式多媒体的体系结构，此工作称为综合服务 (integrated service) 。综合服务体系结构中最主要的部分是资源预留协议 (RSVP) ，该算法基于流，能为流提供好的服务质量，然而需要为每个流预先设置，可扩展性较差，因此几乎没有实际部署。</p>
+<h3 id="区分服务"> 区分服务 </h3>
+<p> 作为综合服务的替代品，区分服务由每个路由器本地实现，无需提前设置流，称为基于类别的服务质量 (区分服务) 。区分服务由一组路由器提供，这些路由器构成一个管理域。若客户订购了区分服务，则进入该管理域的客户数据包会被标记 (在 IP 的区分服务字段) ，服务类别定义为单跳行为 (PHP) 。</p>
+<h2 id="网络互联"> 网络互联 </h2>
+<h3 id="隧道"> 隧道 </h3>
+<p> 处理两个不同网络相互连接时的一般情况极其困难。一种特殊情况是：源主机和目标主机所在网络的类型相同，但途中有不同类型的网络。此时用到隧道技术，生成的网络称为覆盖 (overlay) 网络。隧道的缺点是数据包无法到达位于隧道之下的网络。</p>
+<h3 id="互联网路由"> 互联网路由 </h3>
+<p> 不同的网络使用不同的路由算法，故导致两级路由算法的产生：AS 内部与 AS 之间采取不同的方案。</p>
+<h3 id="数据包分段"> 数据包分段 </h3>
+<p> 每个网络限制其数据包的最大长度，而主机为了降低开销，倾向于传输大的数据包，导致分段，引发一系列问题。现代 Internet 采取的解决方案是在网络中避免分段操作。通过路径 MTU 发现 (path MTU discovery) ，源端在每个 IP 数据包的头部设置不允许分段操作，这样的包被路径上的某个路由器限制住时，路由器将其丢弃 (可以稍加改进以缓解启动延迟) ，并返回报错数据，源端减小发送的包的大小，直到没有报错信息产生。</p>
+<h2 id="internet- 的网络层">Internet 的网络层 </h2>
+<h3 id="原则 -rfc-1958"> 原则 [<a href="https://datatracker.ietf.org/doc/rfc1958/?include_text=1" target="_blank" rel="noopener">RFC 1958</a>]</h3>
+<p>(转自 <a href="https://my.oschina.net/lionets/blog/363305" target="_blank" rel="noopener"> 这里 </a>)</p>
+<ol type="1">
+<li> 保证工作。直到确认原型系统可以正常运行，才可以完成设计或确定标准。</li>
+<li> 保持简单。有疑问时应该使用最简单的解决方案。即如果一项特性并非绝对必要，就应该被砍掉，尤其当可以通过其他简单特性的组合也可以达到相同效果的时候。 (注：也许这里的难点在于确认一套最小功能集)</li>
+<li> 明确选择。解决一个问题应当有且只有一种解决方案，这与 Python 的理念相同。</li>
+<li> 模块开发。使用栈结构组织功能。</li>
+<li> 期望异构性。设计必须通用且灵活，保证兼容性。</li>
+<li> 避免静态选项和参数。如果不可避免要使用参数的话，那么最好的办法是让发送和接收方协商一个值，而不是定义静态参数。 (注：这一条对 app 的指导意义也许可以转换为，设计对象的时候，请尽可能多地将可配置项添加到参数里，而非使用内部常量)</li>
+<li> 寻找好的而不是完美的设计。不必为应对特殊情况而牺牲设计的简单性。特殊情况可以特别处理。</li>
+<li> 严格发送，宽容接收。保证自己发出的数据都是严格符合标准的，但在接收时可以尝试对非标准请求进行处理。</li>
+<li> 考虑可扩展性。即分布式支持。</li>
+<li> 考虑性能和成本。</li>
+</ol>
+<h3 id="ipv4-rfc-791">IPv4 [<a href="https://datatracker.ietf.org/doc/rfc791/?include_text=1" target="_blank" rel="noopener">RFC 791</a>]</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> 0                   1                   2                   3   </span><br><span class="line"> 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 </span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|Version|  IHL  | Diff Services |          Total Length         |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|         Identification        |Flags|      Fragment Offset    |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|  Time to Live |    Protocol   |         Header Checksum       |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|                       Source Address                          |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|                    Destination Address                        |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|                    Options                    |    Padding    |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br></pre></td></tr></table></figure>
+<p>IHL 指出头有多少个 32 位字，最多为 60 字节，故 Options 字段最多 40 字节，这样的选项没有什么用处。区分服务 (Differentiated services) 前六位标记数据包的服务类别，后两位用来携带 ECN 信息。Flags 如下图：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  0   1   2</span><br><span class="line">+---+---+---+</span><br><span class="line">|   | D | M |</span><br><span class="line">| 0 | F | F |</span><br><span class="line">+---+---+---+</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>DF 代表不允许路由器分割该数据报，用于发现路径 MTU。</p></li>
+<li><p>MF 代表更多的段，告诉接收方何时一个数据报的所有分段都已经到达。</p></li>
+</ul>
+<p> 分段偏移量 (Fragment offset) 指出该段在当前数据报中的位置。TTL 实际上只是跳计数器，减为 0 时路由器给源主机发送报警包。Protocol 指出使用何种传输协议对内容进行处理。因为头中含有目的地址这样的关键信息，头校验和是必要的。</p>
+<h3 id="ipv6-rfc-2460">IPv6 [<a href="https://datatracker.ietf.org/doc/rfc2460/?include_text=1" target="_blank" rel="noopener">RFC 2460</a>]</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|Version| Diff Services |           Flow Label                  |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|         Payload Length        |  Next Header  |   Hop Limit   |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|                                                               |</span><br><span class="line">+                                                               +</span><br><span class="line">|                                                               |</span><br><span class="line">+                         Source Address                        +</span><br><span class="line">|                                                               |</span><br><span class="line">+                                                               +</span><br><span class="line">|                                                               |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|                                                               |</span><br><span class="line">+                                                               +</span><br><span class="line">|                                                               |</span><br><span class="line">+                      Destination Address                      +</span><br><span class="line">|                                                               |</span><br><span class="line">+                                                               +</span><br><span class="line">|                                                               |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br></pre></td></tr></table></figure>
+<p> 流标签 (Flow Label) 字段提供一种建立伪连接的方式，源端和接收方把一组具有相同需求并希望得到网络同等对待的数据包打上标记。当一个流标签字段非 0 的包出现时，路由器在内部表中查找该值，提供相应服务。一对 IP 地址之间可以同时存在 220 个活跃的流。下一个头 (Next Header) 指出当前头部之后还有哪种扩展头，若没有，则指定上层的传输协议。去掉校验和 (Checksum) 是因为目前大多使用可靠网络，而计算校验和会极大降低性能，不值得。</p>
+<p> 扩展头编码成 TLV 三元组，目前定义了如下 6 种：</p>
+<table>
+<thead>
+<tr class="header">
+<th> 扩展头 </th>
+<th> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td> 逐跳选项 </td>
+<td> 存放沿途所有路由器必须要检查的信息 </td>
+</tr>
+<tr class="even">
+<td> 目标选项 </td>
+<td> 用于只需被目标主机翻译的字段 (不懂.jpg)</td>
+</tr>
+<tr class="odd">
+<td> 路由 </td>
+<td> 列出在通向目标的途中必须经过的路由器 </td>
+</tr>
+<tr class="even">
+<td> 分段 </td>
+<td> 与 IPv4 类似，但只有源主机可以将数据包进行分段 </td>
+</tr>
+<tr class="odd">
+<td> 认证 </td>
+<td> 让接收方确定发送方身份，使用密码学技术 </td>
+</tr>
+<tr class="even">
+<td> 加密安全有效载荷 </td>
+<td> 对数据包内容进行加密，使用密码学技术 </td>
+</tr>
+</tbody>
+</table>
+<h3 id="internet- 控制协议">Internet 控制协议 </h3>
+<ul>
+<li><p>ICMP [<a href="https://datatracker.ietf.org/doc/rfc792/?include_text=1" target="_blank" rel="noopener">RFC 792</a>]</p></li>
+<li><p>ARP [<a href="https://datatracker.ietf.org/doc/rfc826/?include_text=1" target="_blank" rel="noopener">RFC 826</a>]</p></li>
+<li><p>DHCP [<a href="https://datatracker.ietf.org/doc/rfc2131/?include_text=1" target="_blank" rel="noopener">RFC 2131</a>] [<a href="https://datatracker.ietf.org/doc/rfc2132/?include_text=1" target="_blank" rel="noopener">RFC 2132</a>]</p></li>
+</ul>
+<h3 id="标签交换和 -mpls"> 标签交换和 MPLS</h3>
+<p>MPLS 在每个数据包前面增加一个标签，路由器根据数据包标签而非数据包目标地址实施转发。因为 IP 并非针对虚电路设计，IP 头部没有空间存放标签，因此要在 IP 数据包头前面加上一个新的 MPLS 头。多协议 (MP) 的由来：可以制造同时转发 IP 和非 IP 数据包的 MPLS 交换机，或者通过非 IP 网络来运载 IP 数据包。</p>
+<p> 当一个 IP 数据包到达 MPLS 网络边缘，标签边缘路由器 (LER) 检查其目标 IP 地址，并贴标签；到达 MPLS 网络的另一端时，删除标签。常常把终止在某个特定路由器或 LAN 的流合并，为这些流 (称作转发等价类) 使用同一个标签。</p>
+<p> 还可以使用标签栈 (stack of label) ，引导不同标签的数据包沿共同的路径前进 (妙啊) 。</p>
+<h3 id="ospf">OSPF</h3>
+<p> 借鉴了 IS-IS，于 1990 年成为标准。OSPF 的设计目标：</p>
+<ol type="1">
+<li> 算法必须公开，不能由某公司私有 </li>
+<li> 支持多种距离度量 </li>
+<li> 动态算法，能自动且快速地适应网络拓扑变化 </li>
+<li> 支持基于服务类型的路由 </li>
+<li> 实现负载均衡 </li>
+<li> 支持层次化系统 </li>
+<li> 提供适度的安全性 </li>
+<li> 能处理通过隧道连接到 Internet 的路由器 </li>
+</ol>
+<p>OSPF 把大的 AS 划分成编号的互不重叠的区域。每个 AS 有一个骨干区域 (backbone area) ，其中的所有路由器成为骨干路由器。所有区域都必须连接到骨干区域。对于同一区域内部的路由，采用普通的做法；对于跨区域的路由，必须先从源区域到骨干区域，再从骨干区域到目标区域 (相当于把 OSPF 配制成星型结构) 。</p>
+<h3 id="bgp">BGP</h3>
+<p> 在 AS 之间使用，与 AS 内部使用的域内协议目标不同，需要考虑到政治因素。是距离矢量协议的一种形式，然而使用政策而非最小距离进行路由选择。</p>
+<h3 id="internet- 组播">Internet 组播 </h3>
+<p>IP 使用 D 类 IP 地址来支持组播。当一个进程向 D 类地址发送数据包时，网络尽力而为地将其投递给组中的成员。224.0.0.0/24 范围内的地址被保留作为本地网络组播，不需要路由协议的支持。其他情况下，需要路由协议 (因为成员分布在不同的网络上) 。组播路由器每隔一段时间向它所在的 LAN 上的所有主机发送查询数据包，询问主机所属的组，主机给予应答 (IGMP) 。</p>
+<h3 id="移动 -ip"> 移动 IP</h3>
+<p> 当移动主机不在家乡网络时，家乡代理通过 ARP 代理来拦截发给移动主机的数据包。为了快速更新 ARP 映射，采用免费 ARP。细节问题：</p>
+<ol type="1">
+<li> 隧道移动 IP 的原始形式与 NAT (需要偷窥经过的 IP 包并查看其中的 TCP 头或 UDP 头) 不兼容。</li>
+<li>ISP 通过入口过滤检查包的源 IP 地址 (SAVI？) ，使移动主机必须先将应答包发给家乡代理，再由家乡代理发送给另一端，造成迂回。</li>
+</ol>
+<h1 id="传输层"> 传输层 </h1>
+<h2 id="概述"> 概述 </h2>
+<p> 传输层为两台计算机的进程之间提供数据传递服务，为应用层使用网络提供抽象接口。利用网络层服务，完成传输工作的软硬件称为传输实体。因为用户无法掌控网络层 (路由器由运营商管理)，所以要在网络层上再加一层以提高服务质量。</p>
+<p> 传输层的目标是在不可靠的网络上提供可靠的服务，但也可以提供不可靠服务。</p>
+<p> 在建立连接时，应用进程把自己关联到一个本地 TSAP (在 Internet 中称为 port) 上，以便与远程的 TSAP 建立连接。建立连接后的管理中，关键问题是差错控制和流量控制。由于链路层的校验只能保护穿过单条链路的帧，无法发现在路由器内部产生的错误，因此传输层需要提供端到端的校验。对于链路层，链路带宽延迟乘积小，可以使用小窗口；TCP 则需要使用大的滑动窗口。</p>
+<p> 网络层的拥塞终究是由于传输层发包太快引起的，因此控制拥塞的根本途径是传输层减慢发包速度。拥塞控制的目标是找到好的带宽分配方法，兼顾效率与公平 (最大 - 最小公平)。如何调整发送速率以便获得理想的带宽分配呢？要考虑流量控制 (接收方缓冲区小) 和拥塞控制 (带宽不够)。前者由可变大小窗口解决，解决后者的流行做法是把丢包作为拥塞信号 (在可靠的有线连接中)，在丢包率大的无线网络中，需要采用无线链路上的重传机制来掩盖传输错误引起的丢包 (屏蔽策略)。TCP 采取 AIMD 作为拥塞控制法则，因为该方案收敛到最优点且具有稳定性 (积极减小，缓慢增加)。</p>
+<h2 id="udp-rfc-768">UDP [<a href="https://datatracker.ietf.org/doc/rfc768/?include_text=1" target="_blank" rel="noopener">RFC 768</a>]</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"> 0      7 8     15 16    23 24    31  </span><br><span class="line">+--------+--------+--------+--------+ </span><br><span class="line">|     Source      |   Destination   | </span><br><span class="line">|      Port       |      Port       | </span><br><span class="line">+--------+--------+--------+--------+ </span><br><span class="line">|                 |                 | </span><br><span class="line">|     Length      |    Checksum     | </span><br><span class="line">+--------+--------+--------+--------+ </span><br><span class="line">|                                     </span><br><span class="line">|          data octets ...            </span><br><span class="line">+---------------- ...                 </span><br><span class="line"></span><br><span class="line">     User Datagram Header Format</span><br></pre></td></tr></table></figure>
+<p>UDP 的最主要价值是增加了端口，使应用程序知道如何处理数据包。UDP 最大长度是 65515 字节 (由 IP 限制)；校验和校验以下内容：IP 伪头、UDP 头和数据，最后由 0 填充至整数个 16 位。IP 伪头如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> 0      7 8     15 16    23 24    31 </span><br><span class="line">+--------+--------+--------+--------+</span><br><span class="line">|          source address           |</span><br><span class="line">+--------+--------+--------+--------+</span><br><span class="line">|        destination address        |</span><br><span class="line">+--------+--------+--------+--------+</span><br><span class="line">|  zero  |protocol|   UDP length    |</span><br><span class="line">+--------+--------+--------+--------+</span><br></pre></td></tr></table></figure>
+<p> 其中对应于 UDP 的 protocol 为 17，TCP 为 6。</p>
+<p>UDP 协议广泛应用于以下情况 </p>
+<h3 id="客户机 --- 服务器 -rpc"> 客户机 - 服务器 RPC</h3>
+<p> 例如 DNS</p>
+<h3 id="实时多媒体应用"> 实时多媒体应用 </h3>
+<p><a href="https://datatracker.ietf.org/doc/rfc3550/?include_text=1" target="_blank" rel="noopener"> 实时传输协议 (RTP)</a> 运行于用户空间，位于 UDP 上。其基本功能为将几个实时数据流复用到一个 UDP 数据包流 (单播或组播) 中。RTP 没有确认或重传机制。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"> 0                   1                   2                   3</span><br><span class="line"> 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|V&#x3D;2|P|X|  CC   |M|     PT      |       sequence number         |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|                           timestamp                           |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|           synchronization source (SSRC) identifier            |</span><br><span class="line">+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+&#x3D;+</span><br><span class="line">|            contributing source (CSRC) identifiers             |</span><br><span class="line">|                             ....                              |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line"></span><br><span class="line">version (V): 2 bits</span><br><span class="line">padding (P): 1 bit</span><br><span class="line">extension (X): 1 bit</span><br><span class="line">CSRC count (CC): 4 bits</span><br><span class="line">marker (M): 1 bit</span><br><span class="line">payload type (PT): 7 bits</span><br></pre></td></tr></table></figure>
+<p>PT 说明使用了何种编码；SN 对于每个包递增，可用来检查丢包；TS 注明第一个样本的产生时间，减小 jitter；SSRC 指明该数据包属于哪个流，实现复用。</p>
+<p><a href="https://datatracker.ietf.org/doc/rfc3550/?include_text=1" target="_blank" rel="noopener"> 实时传输控制协议 (RTCP)</a> 处理反馈、同步和用户接口等信息，不传输媒体样值。</p>
+<h2 id="tcp-rfc-793-rfc-4614">TCP [<a href="https://datatracker.ietf.org/doc/rfc793/?include_text=1" target="_blank" rel="noopener">RFC 793</a>] [<a href="https://datatracker.ietf.org/doc/rfc4614/?include_text=1" target="_blank" rel="noopener">RFC 4614</a>]</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> 0                   1                   2                   3   </span><br><span class="line"> 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 </span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|          Source Port          |       Destination Port        |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|                        Sequence Number                        |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|                    Acknowledgment Number                      |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|  Data |           |U|A|P|R|S|F|                               |</span><br><span class="line">| Offset| Reserved  |R|C|S|S|Y|I|            Window             |</span><br><span class="line">|       |           |G|K|H|T|N|N|                               |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|           Checksum            |         Urgent Pointer        |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|                    Options                    |    Padding    |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|                             data                              |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line"></span><br><span class="line">                         TCP Header Format</span><br></pre></td></tr></table></figure>
+<ul>
+<li>5 tuple: TCP + Src IP + Src Port + Dst IP + Dst Port</li>
+<li>Acknowledgment Number: 累积确认，不超过丢失的数据 </li>
+<li>Data Offset: The number of 32 bit words in the TCP Header.</li>
+<li>URG: Urgent Pointer field significant 置 1 后 UP 指向从当前序号开始找到紧急数据的字节偏移量 </li>
+<li>ACK: Acknowledgment field significant 说明 ACK 字段是有效的 </li>
+<li>PSH: Push Function 接收端收到后不将它缓冲，直接递交应用程序 </li>
+<li>RST: Reset the connection 重置连接，GWF 中使用 </li>
+<li>SYN: Synchronize sequence numbers 用来建立连接 </li>
+<li>FIN: No more data from sender 用来释放连接 </li>
+<li>Options: 选项最多 40 字节，常用为：每台主机指定它愿意接收的最大段长 (大的段通常更有效率)、窗口尺度、时间戳 (防止序号回绕)</li>
+</ul>
+<h3 id="tcp- 连接的建立和释放">TCP 连接的建立和释放 </h3>
+<figure>
+<img src="/2020/04/24/Computer-Networks-Review/TCP%20handshakes.png" alt="TCP handshakes"><figcaption>TCP handshakes</figcaption>
+</figure>
+<h3 id="tcp- 滑动窗口">TCP 滑动窗口 </h3>
+<p>Nagle 算法解决发送端应用每次向 TCP 传递一个字节引起的低效率问题 (发送端每次发送极少字节)，Clark 算法解决接收端应用每次从 TCP 读取一个字节引起的低效率问题 (接收端每次开放窗口极小)。</p>
+<h3 id="tcp- 计时器管理">TCP 计时器管理 </h3>
+<ol type="1">
+<li> 重传计时器 (Retransmission Timeout)：最重要，超时后重传未被确认的数据包 </li>
+<li> 持续计时器 (persistence timer)：防止接收端发送的窗口更新消息丢失，造成死锁 </li>
+<li> 保活计时器 (keepalive timer)：当一个连接空闲较长时间后超时 </li>
+<li> 终止连接阶段使用的计时器，超时值为两倍最大数据包生存期 </li>
+</ol>
+<h3 id="tcp- 拥塞控制">TCP 拥塞控制 </h3>
+<p>TCP 同时维护一个拥塞窗口和流量控制窗口，真正发送的数据为较小者。</p>
+<p>TCP 使用确认时钟 (ack clock) 输出流量，在刚建立连接时采取指数增长的慢速启动 (slow start)，当检测到丢包 (通过重复确认)，进行快速重传 (fast retransmission)，并进行快速恢复 (fast recovery), 将拥塞窗口设置为减半后的慢启动阈值 (slow start threshold)，并进行线性增长 (TCP Reno)。</p>
+<p>TCP Reno 的机制经过数十年的历史，出现了两个较大的变化。</p>
+<ol type="1">
+<li> 使用选择确认 (SACK) 提供确切的丢包信息。</li>
+<li> 除了使用丢包作为拥塞信号外，使用显式拥塞通知 (ECN)。</li>
+</ol>
+<h3 id="tcp- 的问题">TCP 的问题 </h3>
+<ol type="1">
+<li> 没有为所有应用程序提供所需的传输语意，例如保留其发送的消息、控制所使用的网络路径等，导致应用程序为 TCP 未解决的问题负责。所以出现了接口略微不同的新协议流控制传输协议 (SCTP [<a href="https://datatracker.ietf.org/doc/rfc4960/?include_text=1" target="_blank" rel="noopener">RFC 4960</a>])、结构化流传输 (SST [<a href="https://datatracker.ietf.org/doc/rfc4960/?include_text=1" target="_blank" rel="noopener">RFC 4960</a>])。</li>
+<li> 基于把丢包作为信号的拥塞控制在网络速度快 (导致丢包率极低) 时，并不能体现吞吐量的限制，即使传输误码率也远大于丢包率。</li>
+</ol>
+<h2 id="性能问题"> 性能问题 </h2>
+<p> 略. QWQ</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/study-notes/" rel="tag"># study notes</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/22/%E6%95%B0%E5%AD%A6%E4%BD%9C%E4%B8%9A%E5%A6%82%E4%BD%95%E5%81%9A/" rel="prev" title="数学作业如何做">
+      <i class="fa fa-chevron-left"></i> 数学作业如何做
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/20/Front-End/" rel="next" title="前端速成">
+      前端速成 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#序言"><span class="nav-number">1.</span> <span class="nav-text"> 序言 </span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据链路层"><span class="nav-number">2.</span> <span class="nav-text"> 数据链路层 </span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#设计问题"><span class="nav-number">2.1.</span> <span class="nav-text"> 设计问题 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#提供给网络层的服务"><span class="nav-number">2.1.1.</span> <span class="nav-text"> 提供给网络层的服务 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#成帧"><span class="nav-number">2.1.2.</span> <span class="nav-text"> 成帧 </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#检错和纠错"><span class="nav-number">2.2.</span> <span class="nav-text"> 检错和纠错 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#纠错码"><span class="nav-number">2.2.1.</span> <span class="nav-text"> 纠错码 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检错码"><span class="nav-number">2.2.2.</span> <span class="nav-text"> 检错码 </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#理论数据链路协议"><span class="nav-number">2.3.</span> <span class="nav-text"> 理论数据链路协议 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实际协议"><span class="nav-number">2.4.</span> <span class="nav-text"> 实际协议 </span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#介质访问控制子层"><span class="nav-number">3.</span> <span class="nav-text"> 介质访问控制子层 </span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#静态分配 -or- 动态分配"><span class="nav-number">3.1.</span> <span class="nav-text"> 静态分配 or 动态分配 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多路访问协议"><span class="nav-number">3.2.</span> <span class="nav-text"> 多路访问协议 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#aloha"><span class="nav-number">3.2.1.</span> <span class="nav-text">ALOHA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#载波侦听多路访问协议"><span class="nav-number">3.2.2.</span> <span class="nav-text"> 载波侦听多路访问协议 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#无冲突协议"><span class="nav-number">3.2.3.</span> <span class="nav-text"> 无冲突协议 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有限竞争协议"><span class="nav-number">3.2.4.</span> <span class="nav-text"> 有限竞争协议 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#无线局域网协议"><span class="nav-number">3.2.5.</span> <span class="nav-text"> 无线局域网协议 </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以太网"><span class="nav-number">3.3.</span> <span class="nav-text"> 以太网 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#经典以太网"><span class="nav-number">3.3.1.</span> <span class="nav-text"> 经典以太网 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交换式以太网"><span class="nav-number">3.3.2.</span> <span class="nav-text"> 交换式以太网 </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无线局域网"><span class="nav-number">3.4.</span> <span class="nav-text"> 无线局域网 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#物理层"><span class="nav-number">3.4.1.</span> <span class="nav-text">802.11 物理层 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mac- 子层协议"><span class="nav-number">3.4.2.</span> <span class="nav-text">802.11 MAC 子层协议 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#帧结构"><span class="nav-number">3.4.3.</span> <span class="nav-text">802.11 帧结构 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务"><span class="nav-number">3.4.4.</span> <span class="nav-text"> 服务 </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#宽带无线"><span class="nav-number">3.5.</span> <span class="nav-text"> 宽带无线 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据链路层交换"><span class="nav-number">3.6.</span> <span class="nav-text"> 数据链路层交换 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#学习网桥"><span class="nav-number">3.6.1.</span> <span class="nav-text"> 学习网桥 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成树网桥"><span class="nav-number">3.6.2.</span> <span class="nav-text"> 生成树网桥 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟局域网"><span class="nav-number">3.6.3.</span> <span class="nav-text"> 虚拟局域网 </span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网络层"><span class="nav-number">4.</span> <span class="nav-text"> 网络层 </span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#网络层的设计问题"><span class="nav-number">4.1.</span> <span class="nav-text"> 网络层的设计问题 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#网络层的目标"><span class="nav-number">4.1.1.</span> <span class="nav-text"> 网络层的目标 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#是否面向连接"><span class="nav-number">4.1.2.</span> <span class="nav-text"> 是否面向连接 </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#路由算法"><span class="nav-number">4.2.</span> <span class="nav-text"> 路由算法 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#泛洪算法"><span class="nav-number">4.2.1.</span> <span class="nav-text"> 泛洪算法 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#距离矢量路由"><span class="nav-number">4.2.2.</span> <span class="nav-text"> 距离矢量路由 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#链路状态路由 -is-is-ospf-etc."><span class="nav-number">4.2.3.</span> <span class="nav-text"> 链路状态路由 (IS-IS, OSPF, etc.)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#广播路由"><span class="nav-number">4.2.4.</span> <span class="nav-text"> 广播路由 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组播路由"><span class="nav-number">4.2.5.</span> <span class="nav-text"> 组播路由 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选播路由"><span class="nav-number">4.2.6.</span> <span class="nav-text"> 选播路由 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#移动主机路由"><span class="nav-number">4.2.7.</span> <span class="nav-text"> 移动主机路由 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自组织网络路由"><span class="nav-number">4.2.8.</span> <span class="nav-text"> 自组织网络路由 </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拥塞控制算法"><span class="nav-number">4.3.</span> <span class="nav-text"> 拥塞控制算法 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#流量感知路由"><span class="nav-number">4.3.1.</span> <span class="nav-text"> 流量感知路由 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#准入控制"><span class="nav-number">4.3.2.</span> <span class="nav-text"> 准入控制 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流量调节"><span class="nav-number">4.3.3.</span> <span class="nav-text"> 流量调节 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#负载脱落"><span class="nav-number">4.3.4.</span> <span class="nav-text"> 负载脱落 </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务质量"><span class="nav-number">4.4.</span> <span class="nav-text"> 服务质量 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#综合服务"><span class="nav-number">4.4.1.</span> <span class="nav-text"> 综合服务 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#区分服务"><span class="nav-number">4.4.2.</span> <span class="nav-text"> 区分服务 </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络互联"><span class="nav-number">4.5.</span> <span class="nav-text"> 网络互联 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#隧道"><span class="nav-number">4.5.1.</span> <span class="nav-text"> 隧道 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#互联网路由"><span class="nav-number">4.5.2.</span> <span class="nav-text"> 互联网路由 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据包分段"><span class="nav-number">4.5.3.</span> <span class="nav-text"> 数据包分段 </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#internet- 的网络层"><span class="nav-number">4.6.</span> <span class="nav-text">Internet 的网络层 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原则 -rfc-1958"><span class="nav-number">4.6.1.</span> <span class="nav-text"> 原则 [RFC 1958]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ipv4-rfc-791"><span class="nav-number">4.6.2.</span> <span class="nav-text">IPv4 [RFC 791]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ipv6-rfc-2460"><span class="nav-number">4.6.3.</span> <span class="nav-text">IPv6 [RFC 2460]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#internet- 控制协议"><span class="nav-number">4.6.4.</span> <span class="nav-text">Internet 控制协议 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标签交换和 -mpls"><span class="nav-number">4.6.5.</span> <span class="nav-text"> 标签交换和 MPLS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ospf"><span class="nav-number">4.6.6.</span> <span class="nav-text">OSPF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bgp"><span class="nav-number">4.6.7.</span> <span class="nav-text">BGP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#internet- 组播"><span class="nav-number">4.6.8.</span> <span class="nav-text">Internet 组播 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#移动 -ip"><span class="nav-number">4.6.9.</span> <span class="nav-text"> 移动 IP</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#传输层"><span class="nav-number">5.</span> <span class="nav-text"> 传输层 </span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">5.1.</span> <span class="nav-text"> 概述 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#udp-rfc-768"><span class="nav-number">5.2.</span> <span class="nav-text">UDP [RFC 768]</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#客户机 --- 服务器 -rpc"><span class="nav-number">5.2.1.</span> <span class="nav-text"> 客户机 - 服务器 RPC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实时多媒体应用"><span class="nav-number">5.2.2.</span> <span class="nav-text"> 实时多媒体应用 </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tcp-rfc-793-rfc-4614"><span class="nav-number">5.3.</span> <span class="nav-text">TCP [RFC 793] [RFC 4614]</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tcp- 连接的建立和释放"><span class="nav-number">5.3.1.</span> <span class="nav-text">TCP 连接的建立和释放 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcp- 滑动窗口"><span class="nav-number">5.3.2.</span> <span class="nav-text">TCP 滑动窗口 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcp- 计时器管理"><span class="nav-number">5.3.3.</span> <span class="nav-text">TCP 计时器管理 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcp- 拥塞控制"><span class="nav-number">5.3.4.</span> <span class="nav-text">TCP 拥塞控制 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcp- 的问题"><span class="nav-number">5.3.5.</span> <span class="nav-text">TCP 的问题 </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能问题"><span class="nav-number">5.4.</span> <span class="nav-text"> 性能问题 </span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">CLT</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CLT</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '02c57cd2f0e6a8d94f1e',
+      clientSecret: 'bf642a00be773577ce3ac8f8bbc4c8197bea346f',
+      repo        : 'bisclt.github.io',
+      owner       : 'Bisclt',
+      admin       : ['Bisclt'],
+      id          : 'a787e419100ab47257f5fc1397ff3d80',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

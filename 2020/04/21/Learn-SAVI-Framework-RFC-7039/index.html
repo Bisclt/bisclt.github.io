@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Introduction 因为路由器在转发 IP 数据包时，并没有用到 IP 源地址，所以源地址可以由发送主机任意选择，造成欺骗。 SAVI 的目标是在小的粒度 (fine granularity) 下，对个人 IP 地址进行过滤。 为了适应各种网络的需求，SAVI 采取了可扩展的设计。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Learn SAVI Framework[RFC 7039]">
+<meta property="og:url" content="http://yoursite.com/2020/04/21/Learn-SAVI-Framework-RFC-7039/index.html">
+<meta property="og:site_name" content="CLT">
+<meta property="og:description" content="Introduction 因为路由器在转发 IP 数据包时，并没有用到 IP 源地址，所以源地址可以由发送主机任意选择，造成欺骗。 SAVI 的目标是在小的粒度 (fine granularity) 下，对个人 IP 地址进行过滤。 为了适应各种网络的需求，SAVI 采取了可扩展的设计。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-04-21T09:07:13.000Z">
+<meta property="article:modified_time" content="2020-05-16T02:55:35.554Z">
+<meta property="article:author" content="CLT">
+<meta property="article:tag" content="study notes">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/04/21/Learn-SAVI-Framework-RFC-7039/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Learn SAVI Framework[RFC 7039] | CLT</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">CLT</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/21/Learn-SAVI-Framework-RFC-7039/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="CLT">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CLT">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Learn SAVI Framework[RFC 7039]
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-04-21 17:07:13" itemprop="dateCreated datePublished" datetime="2020-04-21T17:07:13+08:00">2020-04-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-16 10:55:35" itemprop="dateModified" datetime="2020-05-16T10:55:35+08:00">2020-05-16</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="introduction">Introduction</h2>
+<p> 因为路由器在转发 IP 数据包时，并没有用到 IP 源地址，所以源地址可以由发送主机任意选择，造成欺骗。</p>
+<p>SAVI 的目标是在小的粒度 (fine granularity) 下，对个人 IP 地址进行过滤。</p>
+<p> 为了适应各种网络的需求，SAVI 采取了可扩展的设计。</p>
+<a id="more"></a>
+<h2 id="model">Model</h2>
+<p>SAVI 不应当依赖主机的功能，所以是 purely network based。为了强制主机使用合法 IP 地址，SAVI 使用以下三步骤模型：</p>
+<ol type="1">
+<li>Identify which IP source addresses are legitimate for a host, based on monitoring packets exchanged by the host.</li>
+<li>Bind a legitimate IP address to a link-layer property of the host's network attachment. This property, called a"binding anchor", must be verifiable in every packet that the host sends and harder to spoof than the host's IP source address itself.</li>
+<li>Enforce that the IP source addresses in packets match the binding anchors to which they were bound.</li>
+</ol>
+<p> 关于 SAVI 的安置地点：在主机的默认路由器处（无法监控网络内部的数据包）或在主机与默认路由器之间的交换机处。很显然，SAVI 设置得离主机越近，效果越好。</p>
+<p>SAVI 需要考虑以下各种情况：当网络中存在传统（不支持 SAVI）的设备、主机在不同接入点之间切换、网络分裂（Network Partition）等。</p>
+<h2 id="deployment-options">Deployment Options</h2>
+<p>SAVI 模型的部署需要考虑以下两个方面：</p>
+<ul>
+<li><p> 对合法 IP 的识别依赖于 IP 地址的分配方法 </p>
+<ul>
+<li>The SAVI method hence comes in multiple variants, e.g., for links with DHCP [RFC2131] [RFC3315], Stateless Address Autoconfiguration (SLAAC) [RFC4862] with or without Secure Neighbor Discovery (SEND) [RFC3971], Internet Key Exchange Protocol Version 2 (IKEv2) [RFC5996] [RFC5739] [RFC5026], and combinations thereof.</li>
+</ul></li>
+<li><p>Binding anchors 依赖于链路层技术 </p>
+<ul>
+<li><p>The IEEE extended unique identifier, EUI-48 or EUI-64, of a host's interface.</p></li>
+<li><p>The port on an Ethernet switch to which a host attaches.</p></li>
+<li><p>The security association between a host and the base station on wireless links.</p></li>
+<li><p>The combination of a host interface's link-layer address and a customer relationship in cable modem networks.</p></li>
+<li><p>An ATM virtual channel, a PPP session identifier, or a Layer 2 Tunneling Protocol (L2TP) session identifier in a DSL network.</p></li>
+<li><p>A tunnel that connects to a single host, such as an IP-in-IP tunnel, a Generic Routing Encapsulation (GRE) tunnel, or an MPLS label-switched path.</p></li>
+</ul></li>
+</ul>
+<h2 id="scalability-optimizations">Scalability Optimizations</h2>
+<p> 因为倾向于将 SAVI 配置在距离主机较近的位置，对于大型的网络，必然会出现许多 SAVI 同时存在的情况。如果一个 SAVI 为连接上的所有 IP 地址创建 binding，就会引起冗余，消耗内存，增加成本。因此每个 SAVI 只对直接连接它，或者通过未部署 SAVI 的交换机连接它的主机负责。所有部署 SAVI 的交换机形成一个 "protection perimeter"。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">                                        ..............</span><br><span class="line">              protection perimeter --&gt;  : +--------+ :</span><br><span class="line"> +---+  +---+                           : |  SAVI  | :</span><br><span class="line"> | A |  | B |  &lt;-- hosts                : | switch | :</span><br><span class="line"> +---+  +---+                           : +--------+ :</span><br><span class="line">...|......|.............................:        |   :</span><br><span class="line">: +--------+          +--------+          +--------+ :</span><br><span class="line">: |  SAVI  |----------| legacy |          |  SAVI  | :</span><br><span class="line">: | switch |          | switch |----------| switch | :</span><br><span class="line">: +--------+          +--------+          +--------+ :</span><br><span class="line">:   |        ...............................|........:</span><br><span class="line">: +--------+ :                            +--------+</span><br><span class="line">: |  SAVI  | :                            | legacy |</span><br><span class="line">: | switch | :                            | switch |</span><br><span class="line">: +--------+ :                            +--------+</span><br><span class="line">:............:                             |      |</span><br><span class="line">                                         +---+  +---+</span><br><span class="line">                              hosts --&gt;  | C |  | D |</span><br><span class="line">                                         +---+  +---+</span><br></pre></td></tr></table></figure>
+<p> 所有经过 protection perimeter 的边界的数据包都会被 SAVI 检查源地址，仅当数据包始终处于内部或外部时不执行检查。</p>
+<h2 id="reliability-optimizations">Reliability Optimizations</h2>
+<p> 因为合法 IP 通过 binding 的形式储存在 SAVI 设备中，那么以下情况会导致假阳性：</p>
+<ul>
+<li> 合法 IP 配置包（本应当触发 SAVI 形成一个 binding）在到达 SAVI 设备之前丢失 </li>
+<li> 由于重启等原因，一个 SAVI 设备丢失了一个 binding</li>
+<li> 网络拓扑发生改变，主机连接到其他的 SAVI 上 </li>
+</ul>
+<p> 为了解决丢失 binding 造成的问题，SAVI 提供了相应的机制 (Reactive Binding Creation)：当一个 SAVI 设备发现很多来自同一个 IP 的数据包被丢弃，SAVI 检查该 IP 地址在该链路上是否唯一，若唯一，则 SAVI 为该 IP 地址创建一个 binding；否则继续丢弃来自该 IP 地址的数据包。</p>
+<h2 id="scenario-with-multiple-assignment-methods">Scenario with Multiple Assignment Methods</h2>
+<p> 由于多种 IP 分配方法可能被用于同一个网络，SAVI 设备需要同时采用多种 binding 的发现方法。如果不同的 IP 分配方法分配的是不同的地址前缀，那么这个问题不存在；复杂的情况在于同一个地址前缀存在不同的 IP 分配方案 (mix scenario) 。</p>
+<p> 不同地址分配方案 (DHCP [RFC 2131], DHCPv6 [RFC 3315], SLAAC [RFC 4862], and SEND [RFC 3971]) 的优先级是解决此问题的基础。然而，在一些情况下，默认的优先级顺序并不合适。所以对于 mix scenario ，SAVI 应当支持可配置的优先级。</p>
+<h2 id="prefix-configuration">Prefix Configuration</h2>
+<p> 在建立 host-level binding 之前，需要在 SAVI 设备上设置正确的前缀，利用这些前缀作为白名单来过滤违规源地址。有以下几种机制：</p>
+<ul>
+<li><p>Manual Prefix Configuration: The allowed prefix scope of IPv4 addresses, IPv6 static addresses, IPv6 addresses assigned by Stateless Address Autoconfiguration (SLAAC), and IPv6 addresses assigned by DHCPv6 can be set manually at the SAVI device. FE80::/64 is always a feasible prefix in IPv6.</p></li>
+<li><p>Prefix Configuration by Router Advertisement (RA) Snooping: The allowed prefix scope of IPv6 static addresses and IPv6 addresses assigned by SLAAC can be set at the SAVI device through snooping an RA message at the SAVI device.</p></li>
+<li><p>Prefix Configuration by DHCP Prefix Delegation (DHCP-PD) Snooping: The allowed prefix scope of IPv6 static addresses, IPv6 addresses assigned by SLAAC, and IPv6 addresses assigned by DHCPv6 can be set through snooping a DHCP-PD message at the SAVI device.</p></li>
+</ul>
+<p> 建议：</p>
+<ul>
+<li><p> 如果在某方案中，前缀被设置为空，则该地址分配方案不被允许在当前网络上使用。</p></li>
+<li><p> 不需要将这些前缀范围展示出来，但是这些限制应当在 binding 建立之初被用作检查。</p></li>
+<li><p> 当 SAVI 未被完全部署时，建议使用手动设置。</p></li>
+</ul>
+<h2 id="security-considerations">Security Considerations</h2>
+<ul>
+<li><p> 因为并不是所有情况下都会使用密码学技术，安全性不能得到完全的保证。所以如果有很强的安全需求，应当使用基于密码学认证的技术。</p></li>
+<li>SAVI 通常部署得距离主机较近，这使得 SAVI 设备本身容易受到攻击。因此载有 SAVI 功能的设备不应被物理暴露 </li>
+<li><p> 不要将 SAVI 分布式地部署在行政边界两侧（因为另一侧的 SAVI 并不能得到信任）</p></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/study-notes/" rel="tag"># study notes</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/20/Extensible-NGI/" rel="prev" title="讲座：可扩展的下一代互联网（李丹）">
+      <i class="fa fa-chevron-left"></i> 讲座：可扩展的下一代互联网（李丹）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/22/%E6%95%B0%E5%AD%A6%E4%BD%9C%E4%B8%9A%E5%A6%82%E4%BD%95%E5%81%9A/" rel="next" title="数学作业如何做">
+      数学作业如何做 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#model"><span class="nav-number">2.</span> <span class="nav-text">Model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#deployment-options"><span class="nav-number">3.</span> <span class="nav-text">Deployment Options</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scalability-optimizations"><span class="nav-number">4.</span> <span class="nav-text">Scalability Optimizations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reliability-optimizations"><span class="nav-number">5.</span> <span class="nav-text">Reliability Optimizations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scenario-with-multiple-assignment-methods"><span class="nav-number">6.</span> <span class="nav-text">Scenario with Multiple Assignment Methods</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#prefix-configuration"><span class="nav-number">7.</span> <span class="nav-text">Prefix Configuration</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#security-considerations"><span class="nav-number">8.</span> <span class="nav-text">Security Considerations</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">CLT</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CLT</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '02c57cd2f0e6a8d94f1e',
+      clientSecret: 'bf642a00be773577ce3ac8f8bbc4c8197bea346f',
+      repo        : 'bisclt.github.io',
+      owner       : 'Bisclt',
+      admin       : ['Bisclt'],
+      id          : 'e22f9cdee5a9cd49d585222fe49b30c6',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
