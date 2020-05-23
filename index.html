@@ -170,7 +170,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-05-23 15:22:31 / Modified: 15:45:35" itemprop="dateCreated datePublished" datetime="2020-05-23T15:22:31+08:00">2020-05-23</time>
+              <time title="Created: 2020-05-23 15:22:31 / Modified: 17:24:48" itemprop="dateCreated datePublished" datetime="2020-05-23T15:22:31+08:00">2020-05-23</time>
             </span>
 
           
@@ -317,7 +317,16 @@ function update_board_view () {$('.number_cell').remove ();
     }
   }
   $('.number_cell').css ('line-height', cell_side_length + 'px');
-  $('.number_cell').css ('font-size', 0.6 * cell_side_length + 'px');
+  // $('.number_cell').css ('font-size', 0.6 * cell_side_length + 'px');
+  for (var k = 0;k < 4;++k) {for (var l = 0;l < 4;++l) {$('#number_cell_' + k + '_' + l).css ('font-size', fuck_size (k, l) * cell_side_length+'px');
+    }
+  }
+}
+
+function fuck_size (k, l) {if (board [k][l] <100) return 0.6;
+  if (board [k][l] <1000) return 0.4;
+  if (board [k][l] <10000) return 0.3;
+  return 0.24;
 }
 
 function generate_one_number () {if (nospace (board)) {return false;}
